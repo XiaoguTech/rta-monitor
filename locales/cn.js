@@ -179,5 +179,10 @@
 	"User deleted.": "User deleted.",
 	"User is admin?": "User is admin?",
 	"404 - Page not found": "404 - Page not found",
-	"Unexpected token z in JSON at position 11": "Unexpected token z in JSON at position 11"
+	"Unexpected token z in JSON at position 11": "Unexpected token z in JSON at position 11",
+	"Setup": "Setup",
+	"Email address": "Email address",
+	"Confirm password": "Confirm password",
+	"Complete setup": "Complete setup",
+	"Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\"": "Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\""
 }

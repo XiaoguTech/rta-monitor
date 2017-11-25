@@ -226,13 +226,14 @@ router.get('/api/:id',function(req,res){
     db.kb.findOne({$or: [{_id: common.getId(req.params.id)}, {kb_permalink: req.params.id}], kb_versioned_doc: {$ne: true}}, function (err, result){
         // render 404 if page is not published
         if(result == null || result.kb_published === 'false'){
-            res.render('error', {message: '404 - Page not found', helpers: req.handlebars, config: config});
+            res.render('kb/error', {show_xiaogukb: true,message: '404 - Page not found', helpers: req.handlebars, config: config});
         }else{
             // check if has a password
             if(result.kb_password){
                 if(result.kb_password !== ''){
                     if(req.session.pw_validated === 'false' || req.session.pw_validated === undefined || req.session.pw_validated == null){
-                        res.render('protected_kb', {
+                        res.render('kb/protected_kb', {
+                            show_xiaogukb: true,
                             title: 'Protected Article',
                             result: result,
                             config: config,
@@ -280,7 +281,8 @@ router.get('/api/:id',function(req,res){
                     
                     // show the view
                     common.dbQuery(db.kb, {kb_published: 'true'}, sortBy, featuredCount, function (err, featured_results){
-                        res.render('xiaogukb', {
+                        res.render('kb/xiaogukb', {
+                            show_xiaogukb: true,
                             title: result.kb_title,
                             result: result,
                             user_page: true,

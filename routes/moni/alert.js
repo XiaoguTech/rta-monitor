@@ -1,16 +1,16 @@
 var express = require('express');
-var util = require('util');
 var router = express.Router();
+var util = require('util');
 var fs=require('fs');
 
 /* GET alert page. */
 router.get('/', function(req, res, next) {
-  var orgID=req.session.moni.user;
-  var db = req.app.db;  
   if(req.session.moni.user!=null){
-    db.moni_alerts.find({"orgID":orgID},function(err,data){
-      if(data.length){
-        var jsonObj=data[0];
+    var orgID=req.session.moni.user;
+    var db = req.app.db;
+    db.moni_alerts.findOne({"orgID":orgID},function(err,data){
+      if(data != null){
+        var jsonObj=data;
         var alertArray=jsonObj["alertArray"];
         var latestTime=alertArray[0].time;
         var latestMessage=alertArray[0].message;
@@ -19,14 +19,17 @@ router.get('/', function(req, res, next) {
           var showTime=time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate()+" "+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
           alertArray[obj].time=showTime;
         }
+        var formatTime=alertArray[0].time;
+        res.render('moni/alert', { title: '报警信息',user: req.session.moni.user,alertArray:alertArray,latestTime:latestTime,latestMessage:latestMessage,formatTime:formatTime});
+      }else{
+        res.status(400).json({message:"没有报警信息，需要添加处理"});
       }
-      var formatTime=alertArray[0].time;
-      res.render('moni/alert', { title: '报警信息',user: req.session.moni.user,alertArray:alertArray,latestTime:latestTime,latestMessage:latestMessage,formatTime:formatTime});
-
+      return;
     });    
   }else{
     res.redirect('/login');     
   }
+  return;
 });
 
 router.get('/refresh',function(req,res){
