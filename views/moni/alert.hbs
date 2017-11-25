@@ -1,0 +1,72 @@
+
+<style>
+.ui.vertical.stripe{
+    padding:5em 0 3em;
+}
+#alert_container{
+    {{!-- background: #252222; --}}
+}
+.ui.label{
+    float: right;
+}
+</style>
+<div class="ui vertical stripe segment" id="alert_container">
+    <div class="ui middle aligned stackable grid container">
+        <div class="row">
+            <div class="six wide left floated column">
+                <h3 class="ui header">数据异常报警</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="sixteen wide column">
+                <iframe src="http://123.206.82.207:3000/dashboard-solo/db/voltage?refresh=5s&panelId=7&orgId=1&tab=metrics&theme=light" width="100%" style="border:none;"></iframe>
+            </div>
+        </div>
+        <div class="row">
+            <div class="sixteen wide column">
+                <div class="ui inverted dimmer">
+                    <div class="ui text loader">加载中，请稍后</div>
+                </div>
+                <div class="ui styled fluid accordion">
+                    <div class="title row active">
+                        <i class="dropdown icon"></i>
+                        {{this.latestMessage}}
+                        <label class="ui grey label"><span class="date">{{this.formatTime}}</span></label>                            
+                    </div>	
+                                            
+                    <div class="content active">
+                        <table class="ui selectable celled table" id="alertList">
+                            <tbody>
+                                {{#each this.alertArray}}
+                                    {{#if this.isRead}}
+                                    {{else}}
+                                        <tr>
+                                            <td>{{this.alertID}}</td>
+                                            <td>{{this.time}}</td>
+                                            <td>{{this.message}}</td>
+                                            <td>{{this.value}}</td>                       
+                                        </tr>
+                                    {{/if}}
+                                {{/each}}                                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$('.ui.dropdown').dropdown();
+$('.ui.accordion').accordion();
+{{!-- $(function(){
+    $.ajax({
+        url:window.location.href+"/update",
+        success:function(){
+
+        }
+    });
+        
+    $('.dimmer').removeClass('active');
+}); --}}
+</script>

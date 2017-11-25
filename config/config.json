@@ -10,9 +10,6 @@
             "field": "kb_viewcount",
             "order": -1
         },
-        "show_category": false,
-        "category": ["编程问答","客服","算法与数据结构","真题"],
-        "show_category_article": false,
         "show_top_article": true,
         "website_title": "xiaoguKB",
         "show_featured_articles": false,
