@@ -22,6 +22,13 @@ var compression = require('compression');
 var index = require('./routes/index');
 var api = require('./routes/api');
 
+var moniAlertIndex = require('./routes/moni/alert.js');
+var moniApiIndex = require('./routes/moni/api.js');
+var moniIndex = require('./routes/moni/index.js');
+var moniMetricIndex = require('./routes/moni/metric.js');
+var moniUsers = require('./routes/moni/users.js');
+
+
 var app = express();
 
 // setup the translation
@@ -56,7 +63,7 @@ if(config.settings.theme){
 
 // view engine setup
 app.set('views', path.join(__dirname, '/views'));
-app.engine('hbs', handlebars({extname: 'hbs', layoutsDir: path.join(__dirname, '/views/layouts'), defaultLayout: 'layout.hbs', partialsDir: 'public/themes/'}));
+app.engine('hbs', handlebars({extname: 'hbs', layoutsDir: path.join(__dirname, '/views/layouts'), defaultLayout: 'layout.hbs', partialsDir: path.join(__dirname, '/views/moni/partial')}));
 app.set('view engine', 'hbs');
 
 // helpers for the handlebar templating platform
@@ -267,6 +274,12 @@ if(app_context !== ''){
     app.use('/', index);
     app.use('/', api);
 }
+//set up moni routes
+app.use('/', moniIndex);
+app.use('/alert', moniAlertIndex);
+app.use('/users', moniUsers);
+app.use('/metric', moniMetricIndex);
+app.use('/api',moniApiIndex);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){

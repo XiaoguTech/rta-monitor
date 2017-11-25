@@ -8,7 +8,7 @@ var http = require('http');
 var sha1 = require('sha1');
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: '首页',user: req.session.user});
+  res.render('moni/index', { title: '首页',user: req.session.user});
 });
 
 // 登录
@@ -40,12 +40,12 @@ router.get('/login',function(req,res){
           res.redirect('/');
         }
         else{
-          res.render('login',{ openid:openid});    
+          res.render('moni/login',{ openid:openid});    
         }
       });
     }
     else{
-      res.render('login');      
+      res.render('moni/login');      
     }
 
   }

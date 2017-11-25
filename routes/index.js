@@ -30,6 +30,7 @@ router.get('/', common.restrict, function (req, res, next){
     common.dbQuery(db.kb, {kb_published: 'true'}, sortBy, config.settings.num_top_results, function (err, top_results){
         common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
             res.render('kb/index', {
+                show_xiaogukb: true,
                 title: 'openKB',
                 user_page: true,
                 homepage: true,
@@ -60,7 +61,7 @@ router.post('/protected/action', function (req, res){
         }else{
             // password incorrect
             req.session.pw_validated = null;
-            res.render('kb/error', {message: 'Password incorrect. Please try again.', helpers: req.handlebars, config: config});
+            res.render('kb/error', {show_xiaogukb: true,message: 'Password incorrect. Please try again.', helpers: req.handlebars, config: config});
         }
     });
 });
@@ -130,7 +131,7 @@ router.get('/' + config.settings.route_name + '/:id/version', common.restrict, f
 
     // check for logged in user
     if(!req.session.user){
-        res.render('kb/error', {message: '404 - Page not found', helpers: req.handlebars, config: config});
+        res.render('kb/error', {show_xiaogukb: true,message: '404 - Page not found', helpers: req.handlebars, config: config});
         return;
     }
 
@@ -146,6 +147,7 @@ router.get('/' + config.settings.route_name + '/:id/version', common.restrict, f
         // show the view
         common.dbQuery(db.kb, {kb_published: 'true', kb_versioned_doc: {$eq: true}}, sortBy, featuredCount, function (err, featured_results){
             res.render('kb/kb', {
+                show_xiaogukb: true,
                 title: result.kb_title,
                 result: result,
                 user_page: true,
@@ -185,13 +187,14 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, function 
     db.kb.findOne({$or: [{_id: common.getId(req.params.id)}, {kb_permalink: req.params.id}], kb_versioned_doc: {$ne: true}}, function (err, result){
         // render 404 if page is not published
         if(result == null || result.kb_published === 'false'){
-            res.render('kb/error', {message: '404 - Page not found', helpers: req.handlebars, config: config});
+            res.render('kb/error', {show_xiaogukb: true,message: '404 - Page not found', helpers: req.handlebars, config: config});
         }else{
             // check if has a password
             if(result.kb_password){
                 if(result.kb_password !== ''){
                     if(req.session.pw_validated === 'false' || req.session.pw_validated === undefined || req.session.pw_validated == null){
                         res.render('kb/protected_kb', {
+                            show_xiaogukb: true,
                             title: 'Protected Article',
                             result: result,
                             config: config,
@@ -240,6 +243,7 @@ router.get('/' + config.settings.route_name + '/:id', common.restrict, function 
                 // show the view
                 common.dbQuery(db.kb, {kb_published: 'true'}, sortBy, featuredCount, function (err, featured_results){
                     res.render('kb/kb', {
+                        show_xiaogukb: true,
                         title: result.kb_title,
                         result: result,
                         user_page: true,
@@ -266,7 +270,7 @@ router.get('/settings', common.restrict, function (req, res){
 
     // only allow admin
     if(req.session.is_admin !== 'true'){
-        res.render('kb/error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
 
@@ -275,6 +279,7 @@ router.get('/settings', common.restrict, function (req, res){
 
     fs.readdir(themePath, function (err, files){
         res.render('kb/settings', {
+            show_xiaogukb: true,
             title: 'Settings',
             session: req.session,
             themes: files.filter(junk.not),
@@ -291,7 +296,7 @@ router.get('/settings', common.restrict, function (req, res){
 router.post('/update_settings', common.restrict, function (req, res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
-        res.render('kb/error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
 
@@ -379,12 +384,13 @@ router.get('/edit/:id', common.restrict, function (req, res){
     common.config_expose(req.app);
     db.kb.findOne({_id: common.getId(req.params.id), kb_versioned_doc: {$ne: true}}, function (err, result){
         if(!result){
-            res.render('kb/error', {message: '404 - Page not found', helpers: req.handlebars, config: config});
+            res.render('kb/error', {show_xiaogukb: true,message: '404 - Page not found', helpers: req.handlebars, config: config});
             return;
         }
 
         common.dbQuery(db.kb, {kb_parent_id: req.params.id}, {kb_last_updated: -1}, 20, function (err, versions){
             res.render('kb/edit', {
+                show_xiaogukb: true,
                 title: 'Edit article',
                 result: result,
                 versions: versions,
@@ -494,6 +500,7 @@ router.get('/suggest', common.suggest_allowed, function (req, res){
     common.setTemplateDir('admin', req);
 
     res.render('kb/suggest', {
+        show_xiaogukb: true,
         title: 'Suggest article',
         config: config,
         editor: true,
@@ -712,13 +719,14 @@ router.get('/logout', function (req, res){
 router.get('/users', common.restrict, function (req, res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
-        res.render('kb/error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
 
     var db = req.app.db;
     common.dbQuery(db.users, {}, null, null, function (err, users){
         res.render('kb/users', {
+            show_xiaogukb: true,
             title: 'Users',
             users: users,
             config: config,
@@ -745,6 +753,7 @@ router.get('/user/edit/:id', common.restrict, function (req, res){
         }
 
         res.render('kb/user_edit', {
+            show_xiaogukb: true,
             title: 'User edit',
             user: user,
             session: req.session,
@@ -760,11 +769,12 @@ router.get('/user/edit/:id', common.restrict, function (req, res){
 router.get('/users/new', common.restrict, function (req, res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
-        res.render('kb/error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
 
     res.render('kb/user_new', {
+        show_xiaogukb: true,
         title: 'User - New',
         session: req.session,
         message: common.clear_session_value(req.session, 'message'),
@@ -779,6 +789,7 @@ router.get('/articles', common.restrict, function (req, res){
     var db = req.app.db;
     common.dbQuery(db.kb, {kb_versioned_doc: {$ne: true}}, {kb_published_date: -1}, 10, function (err, articles){
         res.render('kb/articles', {
+            show_xiaogukb: true,
             title: 'Articles',
             articles: articles,
             session: req.session,
@@ -794,6 +805,7 @@ router.get('/articles/all', common.restrict, function (req, res){
     var db = req.app.db;
     common.dbQuery(db.kb, {kb_versioned_doc: {$ne: true}}, {kb_published_date: -1}, null, function (err, articles){
         res.render('kb/articles', {
+            show_xiaogukb: true,
             title: 'Articles',
             articles: articles,
             session: req.session,
@@ -818,6 +830,7 @@ router.get('/articles/:tag', function (req, res){
     // we search on the lunr indexes
     common.dbQuery(db.kb, {_id: {$in: lunr_id_array}}, {kb_published_date: -1}, null, function (err, results){
         res.render('kb/articles', {
+            show_xiaogukb: true,
             title: 'Articles',
             results: results,
             session: req.session,
@@ -976,6 +989,7 @@ router.get('/login', function (req, res){
             }
 
             res.render('kb/login', {
+                show_xiaogukb: true,
                 title: 'Login',
                 referring_url: referringUrl,
                 config: config,
@@ -1001,6 +1015,7 @@ router.get('/setup', function (req, res){
         req.session.needs_setup = false;
         if(user_count === 0){
             res.render('kb/setup', {
+                show_xiaogukb: true,
                 title: 'Setup',
                 config: config,
                 message: common.clear_session_value(req.session, 'message'),
@@ -1025,7 +1040,7 @@ router.get('/file_cleanup', common.restrict, function (req, res){
 
     // only allow admin
     if(req.session.is_admin !== 'true'){
-        res.render('kb/error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
 
@@ -1092,7 +1107,7 @@ router.post('/login_action', function (req, res){
 router.get('/user/delete/:id', common.restrict, function (req, res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
-        res.render('kb/error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
 
@@ -1260,7 +1275,7 @@ router.get('/files', common.restrict, function (req, res){
 
     // only allow admin
     if(req.session.is_admin !== 'true'){
-        res.render('kb/error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
 
@@ -1299,6 +1314,7 @@ router.get('/files', common.restrict, function (req, res){
 
         // render the files route
         res.render('kb/files', {
+            show_xiaogukb: true,
             title: 'Files',
             files: file_list,
             dirs: dir_list,
@@ -1314,6 +1330,7 @@ router.get('/files', common.restrict, function (req, res){
 // insert form
 router.get('/insert', common.restrict, function (req, res){
     res.render('kb/insert', {
+        show_xiaogukb: true,
         title: 'Insert new',
         session: req.session,
         kb_title: common.clear_session_value(req.session, 'kb_title'),
@@ -1369,6 +1386,7 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res)
     common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}}, null, null, function (err, results){
         common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
             res.render('kb/index', {
+                show_xiaogukb: true,
                 title: 'Search results: ' + search_term,
                 search_results: results,
                 user_page: true,
@@ -1416,6 +1434,7 @@ router.post('/search', common.restrict, function (req, res){
     common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}}, null, null, function (err, results){
         common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
             res.render('kb/index', {
+                show_xiaogukb: true,
                 title: 'Search results: ' + search_term,
                 search_results: results,
                 user_page: true,
@@ -1435,6 +1454,7 @@ router.post('/search', common.restrict, function (req, res){
 // import form
 router.get('/import', common.restrict, function (req, res){
     res.render('kb/import', {
+        show_xiaogukb: true,
         title: 'Import',
         session: req.session,
         helpers: req.handlebars,
@@ -1522,7 +1542,7 @@ router.get('/export', common.restrict, function (req, res){
 
     // only allow admin
     if(req.session.is_admin !== 'true'){
-        res.render('kb/error', {message: 'Access denied', helpers: req.handlebars, config: config});
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
 

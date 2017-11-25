@@ -3,7 +3,6 @@ var path = require('path');
 var fs = require('fs');
 var util = require("util")
 var router = express.Router();
-var common = require('../data/common');
 
 // get all alert info from db
 router.get('/',function(req,res){

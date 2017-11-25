@@ -104,7 +104,7 @@ router.get('/oauth',function(req,res,next){
                 data=JSON.parse(d);
                 if(data.openid!=undefined){
                     console.log(data.openid);
-                    res.render('index', { openid:openid});
+                    res.render('moni/index', { openid:openid});
                 }else{
                     console.log("Fail to get a openid!");
                 }

@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var express = require('express');
 var router = express.Router();
-var common = require('../data/common');
+
 
 	// 读取json文件
 
@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
         obj.category_id=docs[i].category_id;
         loadedURL.normalMenu.push(obj);
       }
-      res.render('metric', {
+      res.render('moni/metric', {
         title: '监控显示',
         result: loadedURL.metric,
         normalMenu: loadedURL.normalMenu,
@@ -52,7 +52,7 @@ router.get('/monitor/:id', function(req, res) {
           obj.category_id=docs[i].category_id;
           loadedURL.normalMenu.push(obj);
         }
-        res.render('metric', {
+        res.render('moni/metric', {
           title: obj.category_name+'显示',
           result: loadedURL.metric,
           normalMenu: loadedURL.normalMenu,

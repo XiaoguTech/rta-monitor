@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
         }
       }
       var formatTime=alertArray[0].time;
-      res.render('alert', { title: '报警信息',user: req.session.user,alertArray:alertArray,latestTime:latestTime,latestMessage:latestMessage,formatTime:formatTime});
+      res.render('moni/alert', { title: '报警信息',user: req.session.user,alertArray:alertArray,latestTime:latestTime,latestMessage:latestMessage,formatTime:formatTime});
 
     });    
   }else{
