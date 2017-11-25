@@ -5,10 +5,10 @@ var fs=require('fs');
 
 /* GET alert page. */
 router.get('/', function(req, res, next) {
-  var orgID=req.session.user;
+  var orgID=req.session.moni.user;
   var db = req.app.db;  
-  if(req.session.user!=null){
-    db.alerts.find({"orgID":orgID},function(err,data){
+  if(req.session.moni.user!=null){
+    db.moni_alerts.find({"orgID":orgID},function(err,data){
       if(data.length){
         var jsonObj=data[0];
         var alertArray=jsonObj["alertArray"];
@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
         }
       }
       var formatTime=alertArray[0].time;
-      res.render('moni/alert', { title: '报警信息',user: req.session.user,alertArray:alertArray,latestTime:latestTime,latestMessage:latestMessage,formatTime:formatTime});
+      res.render('moni/alert', { title: '报警信息',user: req.session.moni.user,alertArray:alertArray,latestTime:latestTime,latestMessage:latestMessage,formatTime:formatTime});
 
     });    
   }else{
@@ -30,9 +30,9 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/refresh',function(req,res){
-  var orgID=req.session.user;
+  var orgID=req.session.moni.user;
   var db = req.app.db;  
-  db.alerts.find({"orgID":orgID},function(err,data){
+  db.moni_alerts.find({"orgID":orgID},function(err,data){
     if(data.length){
       var jsonObj=data[0];
       var alertArray=jsonObj["alertArray"];
@@ -54,8 +54,8 @@ return size from timestamp:intenger
  */
 router.get('/getNewNum',function(req,res){
   var dTimeStamp = req.query.timestamp;
-  var sOrgID = req.session.user;
-  var db = req.app.db.alerts;
+  var sOrgID = req.session.moni.user;
+  var db = req.app.db.moni_alerts;
   db.findOne({"orgID":sOrgID},function(err,result){
     if(result == null){
       // not found orgID
@@ -92,8 +92,8 @@ else if 新消息的数量>0 返回数量、最新的消息内容和最新的时
 
 router.get('/getLatestMessage',function(req,res){
   var dTimeStamp = req.query.timestamp;
-  var sOrgID = req.session.user;
-  var db = req.app.db.alerts;
+  var sOrgID = req.session.moni.user;
+  var db = req.app.db.moni_alerts;
   db.findOne({"orgID":sOrgID},function(err,result){
     if(result == null){
       // not found orgID

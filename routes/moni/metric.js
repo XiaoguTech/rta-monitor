@@ -10,11 +10,11 @@ var router = express.Router();
 /* GET metric page. */
 router.get('/', function(req, res) {
   var db = req.app.db;
-  if(req.session.user ==null){
+  if(req.session.moni.user ==null){
     res.redirect('/login');
   }
   else{
-    db.categorys.find({}, function (err, docs) {
+    db.moni_categorys.find({}, function (err, docs) {
       var loadedURL={};
       loadedURL.metric=[];
       loadedURL.normalMenu=[];
@@ -30,7 +30,7 @@ router.get('/', function(req, res) {
         result: loadedURL.metric,
         normalMenu: loadedURL.normalMenu,
         alertMenu: null,
-        user: req.session.user
+        user: req.session.moni.user
       });
     });
   }
@@ -38,10 +38,10 @@ router.get('/', function(req, res) {
 
 // /metric/normal/:id
 router.get('/monitor/:id', function(req, res) {
-  if(req.session.user!=null){
+  if(req.session.moni.user!=null){
       var db = req.app.db;
       var categoryId = req.params.id-1;
-      db.categorys.find({}, function (err, docs) {
+      db.moni_categorys.find({}, function (err, docs) {
         var loadedURL={};
         loadedURL.metric=[];
         loadedURL.normalMenu=[];
@@ -57,7 +57,7 @@ router.get('/monitor/:id', function(req, res) {
           result: loadedURL.metric,
           normalMenu: loadedURL.normalMenu,
           alertMenu: null,
-          user: req.session.user
+          user: req.session.moni.user
         });
     });
   }else{

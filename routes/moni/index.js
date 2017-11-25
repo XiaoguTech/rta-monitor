@@ -8,46 +8,16 @@ var http = require('http');
 var sha1 = require('sha1');
 
 router.get('/', function(req, res, next) {
-  res.render('moni/index', { title: '首页',user: req.session.user});
+  res.render('moni/index', { title: '首页',user: req.session.moni.user});
 });
 
 // 登录
 router.get('/login',function(req,res){
-  var openid=req.query.openid;
-  var openExist=false;
   //已经登录过直接跳出
-  if(req.session.user!=null){
+  if(req.session.moni.user!=null){
     res.redirect('/');
-  }
-  else{
-    //有 openid 字段则验证其是否已经绑定
-    if(openid!=undefined){
-      fs.readFile('./data/openid.db',function(err,data){
-        if(err){
-          throw err;
-        }
-        var jsonObj=JSON.parse(data);
-        var openList=jsonObj["open"];
-        for(var obj in openList){
-          if(openList[obj].openid==openid){
-            req.session.user=openList[obj].username;
-            req.session.openid=openList[obj].openid;
-            openExist=true;
-            break;
-          }
-        }
-        if(openExist){
-          res.redirect('/');
-        }
-        else{
-          res.render('moni/login',{ openid:openid});    
-        }
-      });
-    }
-    else{
-      res.render('moni/login');      
-    }
-
+  }else{
+      res.render('moni/login');
   }
 });
 
@@ -55,81 +25,25 @@ router.get('/login',function(req,res){
 router.post('/checkLogin',function(req,res){
   var uname=req.body['username'];
   var pwd=sha1(req.body['password']);
-  var openid=req.body['openid'];
   var db = req.app.db;
   var status=400;    
-  db.users.find({"userId":uname,"token":pwd},function(err,result){
-    if(result.length!=0){
-      if(openid!=undefined){
-        fs.readFile('./data/openid.db',function(err,data){
-          if(err){
-            throw err;
-          }
-          var jsonObj=JSON.parse(data);
-          var obj={};
-          obj.username=uname;
-          obj.openid=openid;
-          jsonObj.open.push(obj);
-          fs.writeFile('./data/openid.db',JSON.stringify(jsonObj),function(err){
-            if(err){
-                throw err;
-            }
-            console.log("A new openid is saved");
-          });
-        })
+  db.moni_users.findOne({"userId":uname,"token":pwd},function(err,result){
+    if(result != null){
         status=200;
-        req.session.user=uname;
-        req.session.openid=openid; username
-        req.session.orgId=result[0].orgId;  
-        console.log("Bind and login");
-      }else{
-        status=200;
-        req.session.user=uname;
-        req.session.orgId=result[0].orgId;
-        console.log("Login but not bind")
-      }
+        req.session.moni={};
+        req.session.moni.user=uname;
+        req.session.moni.orgId=result.orgId;
     }
     res.status(status);
     res.end();
+    return;
   });   
 });
 
 // 登出
 router.get('/logout',function(req,res){
-  if(req.session.openid!=null && req.session.openid!=""){
-    fs.readFile('./data/openid.db',function(err,data){
-      if(err){
-        throw err;
-      }
-      var jsonObj=JSON.parse(data);
-      var openList=jsonObj['open'];
-      var num=-1;// 该用户在 openid 数据库的位置 
-      for(var obj in openList){
-        if(openList[obj].openid==req.session.openid){
-          num=obj;
-          break;
-        }
-      }
-      if(num!=-1){
-        openList.splice(num,1);
-        jsonObj.open=openList;
-        fs.writeFile('./data/openid.db',JSON.stringify(jsonObj),function(err){
-          if(err){
-              throw err;
-          }
-          console.log("An openid has been deleted");
-        });
-      }
-      req.session.user=null;
-      req.session.openid=null;
-      req.session.orgId=null;      
-      res.redirect('/');
-    })
-  }else{
-    req.session.user=null;
-    req.session.openid=null; 
-    req.session.orgId=null;    
+    req.session.moni.user=null;
+    req.session.moni.orgId=null;    
     res.redirect('/');
-  }
 });
 module.exports = router;

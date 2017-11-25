@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  if(req.session.user!=null){
+  if(req.session.moni.user!=null){
     res.send('respond with a resource');
   }else{
     res.redirect('/login');     

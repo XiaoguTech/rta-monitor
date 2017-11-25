@@ -231,6 +231,15 @@ app.use(session({
     })
 }));
 
+app.use(function (req, res, next) {
+    if (!req.session.moni) {
+        req.session.moni={};
+        req.session.moni.user = null;
+        // req.session.moni.user = "test";
+        req.session.moni.orgId=null;
+    }
+    next();
+})
 // setup the app context
 var app_context = '';
 if(config.settings.app_context !== undefined && config.settings.app_context !== ''){
@@ -296,7 +305,7 @@ if(app.get('env') === 'development'){
     app.use(function (err, req, res, next){
         console.error(err.stack);
         res.status(err.status || 500);
-        res.render('error', {
+        res.render('kb/error', {
             message: err.message,
             error: err,
             helpers: handlebars.helpers,
@@ -310,7 +319,7 @@ if(app.get('env') === 'development'){
 app.use(function (err, req, res, next){
     console.error(err.stack);
     res.status(err.status || 500);
-    res.render('error', {
+    res.render('kb/error', {
         message: err.message,
         error: {},
         helpers: handlebars.helpers,
@@ -327,6 +336,10 @@ if(config.settings.database.type === 'embedded'){
     db.kb = new Nedb({filename: path.join(__dirname, '/data/kb.db'), autoload: true});
     db.votes = new Nedb({filename: path.join(__dirname, '/data/votes.db'), autoload: true});
 
+    db.moni_users = new Nedb({filename: path.join(__dirname, '/data/moni_users.db'), autoload: true});
+    db.moni_categorys = new Nedb({filename: path.join(__dirname, '/data/moni_categorys.db'), autoload: true});
+    db.moni_alerts = new Nedb({filename: path.join(__dirname, '/data/moni_alerts.db'), autoload: true});
+    db.moni_solutions = new Nedb({filename: path.join(__dirname, '/data/moni_solutions.db'), autoload: true});
     // add db to app for routes
     app.db = db;
 

@@ -7,7 +7,7 @@ var router = express.Router();
 // get all alert info from db
 router.get('/',function(req,res){
 	var db = req.app.db;
-	db.alerts.find({},function(err,docs){
+	db.moni_alerts.find({},function(err,docs){
 	  res.send(util.inspect(docs,{depth:null}));
 	})
 });
@@ -27,7 +27,7 @@ router.post('/test', function(req, res){
 		break;
 	}
 	// db manupulation: alerts
-	var db = req.app.db.alerts;
+	var db = req.app.db.moni_alerts;
 	// if db is null ,return status 200 and send message
 	if(db == false){
 		res.status(200).json({message:"db is null"});
@@ -116,7 +116,7 @@ router.post('/test', function(req, res){
 // alert test get req.query
 router.get('/test', function(req, res){
 	var db = req.app.db;
-	db.alerts.insert((req.query), (err, ret) => {});
+	db.moni_alerts.insert((req.query), (err, ret) => {});
 	console.log(util.inspect(req.query,{depth:null}));
 	res.send(util.inspect(req.query,{depth:null}));
 });
@@ -125,7 +125,7 @@ router.get('/test', function(req, res){
 // get all alert info from db
 router.get('/alertdb',function(req,res){
 	var db = req.app.db;
-	db.alerts.find({},function(err,docs){
+	db.moni_alerts.find({},function(err,docs){
 	  res.send(util.inspect(docs,{depth:null}));
 	})
 });
@@ -134,7 +134,7 @@ router.get('/alertdb',function(req,res){
 // insert alert solution: {corresponding alert panel and alert kb passage}
 router.post('/solution', function(req,res){
 	var oSolution = req.body.solution;
-	var db = req.app.db.solutions;
+	var db = req.app.db.moni_solutions;
 	if(db == null){
 		return res.status(200).json({messgae:"database is empty"});
 	}else{
@@ -175,8 +175,8 @@ router.post('/solution', function(req,res){
 // return obj = {alertID:xxx,openKBURL:xxx,alertPanelURL:xxx}
 router.get('/solution',function(req,res){
 	var sAlertID = req.query.alertID;
-	var sOrgID = req.session.user;
-	var db = req.app.db.solutions;
+	var sOrgID = req.session.moni.user;
+	var db = req.app.db.moni_solutions;
 	if(db == null){
 		return res.status(200).json({messgae:"database is empty"});
 	}else{
@@ -208,7 +208,7 @@ router.get('/solution',function(req,res){
 // get all solution info from db
 router.get('/solutiondb',function(req,res){
 	var db = req.app.db;
-	db.solutions.find({},function(err,docs){
+	db.moni_solutions.find({},function(err,docs){
 	  res.send(util.inspect(docs,{depth:null}));
 	})
 });
