@@ -1,0 +1,9 @@
+node_modules/
+Rubbish/
+public/images/
+public/uploads/
+data/export.zip
+.vscode
+jsconfig.json
+.idea/
+.DS_Store
