@@ -1,70 +1,13 @@
-{{!-- 显示图表 --}}
 <style type="text/css">
-body {
-  background-color: #FFFFFF;
-}
-.ui.menu .item img.logo {
-  margin-right: 1.5em;
-}
-.main.container {
-  margin-top: 5em;
-}
-.wireframe {
-  margin-top: 2em;
-}
-.ui.footer.segment {
-  margin: 5em 0em 0em;
-  padding: 5em 0em;
-}
-@media screen and (max-width: 400px)
-{
-  .sub_frame{
-    border: none;
-    height: 150px;
+  body.pushable>.pusher{
+    background: #111111;
   }
-}
-@media (min-width:400px) and (max-width: 600px)
-{
-  .sub_frame{
-    border: none;    
-    height: 200px;
-  }
-}
-@media (min-width: 600px) and (max-width:800px){
-  .sub_frame{
-    border:none;    
-    height: 250px;
-  }
-}
-@media screen and (min-width:800px){
-  .sub_frame{
-    border: none;    
-    height: 300px;
-  }
-}
-.graph_url{
-  color:#cccccc;
-}
-.graph_url:hover{
-  color:#ffffff;
-}
-body.pushable>.pusher{
-  background: #111111;
-}
 </style>
-{{!-- 展示默认图表以及result中的对应图表 --}}
 {{#if result}}
-<div class="ui main container">
+  <div class="ui main container" id="metricContainer">
     {{#each result}}
-      <h1 class="ui header"><a href="{{this.url}}" target="_blank" class="graph_url">{{this.name}}</a></h1>
-      <iframe src={{this.url}} width="100%" class="sub_frame"></iframe>
+      <h1 class="ui header"><a href="{{this.url}}" target="_blank" class="metricIGraphUrl">{{this.name}}</a></h1>
+      <iframe src={{this.url}} width="100%" class="metricIframe"></iframe>
     {{/each}}
-</div>
+  </div>
 {{/if}}
-
-
-
-
-
-
-
