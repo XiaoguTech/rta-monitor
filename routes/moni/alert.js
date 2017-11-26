@@ -16,10 +16,10 @@ router.get('/', function(req, res, next) {
 router.get('/refresh',function(req,res){
   var orgID=req.session.moni.user;
   var db = req.app.db;
-  db.moni_alerts.findOne({"orgID":orgID},function(err,data){
+  db.moni_alerts.find({"orgID":orgID},function(err,data){
     if(err)return res.status(500).json({message:err});
-    if(data!=null){
-      var jsonObj=data;
+    if(data[0]!=null){
+      var jsonObj=data[0];
       var alertArray=jsonObj["alertArray"];
       var latestTime=alertArray[0].time;
       var latestMessage=alertArray[0].message;
@@ -28,10 +28,8 @@ router.get('/refresh',function(req,res){
         latestTime:latestTime,
         latestMessage:latestMessage
       };
-      res.send(alertObject);
-    }else{
-      res.status(100).json({message:"nothing refresh"});
     }
+    res.send(alertObject);
     return;
   });    
 
