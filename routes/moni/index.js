@@ -17,7 +17,7 @@ router.get('/login',function(req,res){
   if(req.session.moni.user!=null){
     res.redirect('/');
   }else{
-      res.render('moni/login');
+      res.render('moni/login',{hide_footer:"hide_footer",hide_navigation:"hide_navigation"});
   }
 });
 
