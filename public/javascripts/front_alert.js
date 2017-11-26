@@ -36,7 +36,7 @@ function updateTable(data){
     for(var obj in alertArray){
         var tr=$("<tr></tr>");
         tr.append($("<td></td>").append("<label class='ui red empty circular label'></label>"));
-        tr.append($("<td></td>").append($("<a href='/api/solution?alertID="+alertArray[obj].alertID+"' target='_blank'>"+alertArray[obj].alertID+"</a>")));
+        tr.append($("<td></td>").append($("<a href='/api/solution/"+alertArray[obj].alertID+"' target='_blank'>"+alertArray[obj].alertID+"</a>")));
         tr.append($("<td></td>").append(formatTime(alertArray[obj].time)));
         tr.append($("<td></td>").append(alertArray[obj].message));
         tr.append($("<td></td>").append(alertArray[obj].value.toFixed(3))); 

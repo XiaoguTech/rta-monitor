@@ -171,10 +171,10 @@ router.post('/solution', function(req,res){
 });
 
 // req.query
-// /api/solution?alertID=xxx
+// /api/solution/alertID=xxx
 // return obj = {alertID:xxx,openKBURL:xxx,alertPanelURL:xxx}
-router.get('/solution',function(req,res){
-	var sAlertID = req.query.alertID;
+router.get('/solution/:alertID',function(req,res){
+	var sAlertID = req.params.alertID;
 	var sOrgID = req.session.moni.user;
 	var db = req.app.db.moni_solutions;
 	if(db == null){
@@ -192,12 +192,19 @@ router.get('/solution',function(req,res){
 					return element.alertID === sAlertID;
 				});
 				if(iAlertIndex === -1){
-					return res.status(200).json({
-						message:"not found your alertID in the solution list",
+					return res.render('moni/error',{
+						message:"未找到对应解决方案，报告管理员。",
 						alertID:sAlertID
-					});
+					});//status(200).json({
+					// 	message:"not found your alertID in the solution list",
+					// 	alertID:sAlertID
+					// });
 				}else{
-					return res.status(200).json(aArray[iAlertIndex]);
+					res.render('moni/solution',{
+						alertPanelURL:aArray[iAlertIndex].alertPanelURL,
+						openKBURL:aArray[iAlertIndex].openKBURL
+					});
+					return;// res.status(200).json(aArray[iAlertIndex]);
 				}
 			}
 		});
