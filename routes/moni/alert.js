@@ -15,8 +15,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/refresh',function(req,res){
   var orgID=req.session.moni.user;
-  var db = req.app.db.moni_alerts;
-  db.findOne({"orgID":orgID},function(err,data){
+  var db = req.app.db;
+  db.moni_alerts.findOne({"orgID":orgID},function(err,data){
+    if(err)return res.status(500).json({message:err});
     if(data!=null){
       var jsonObj=data;
       var alertArray=jsonObj["alertArray"];
