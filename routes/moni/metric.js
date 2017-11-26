@@ -4,9 +4,6 @@ var fs = require('fs');
 var express = require('express');
 var router = express.Router();
 
-
-	// 读取json文件
-
 /* GET metric page. */
 router.get('/', function(req, res) {
   var db = req.app.db;
