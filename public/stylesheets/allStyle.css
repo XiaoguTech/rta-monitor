@@ -1,0 +1,225 @@
+body {
+    background-color: #FFFFFF;
+}
+.ui.primary.button{
+	margin-top: 1em;
+}
+.masthead.segment {
+  min-height: 80px;
+  padding: 1em 0em;
+}
+.masthead .logo.item img {
+  margin-right: 1em;
+}
+.masthead .ui.menu .ui.button {
+  margin-left: 0.5em;
+}
+.masthead h1.ui.header {
+  font-size: 4em;
+  font-weight: normal;
+}
+.masthead h2 {
+  font-size: 1.7em;
+  font-weight: normal;
+}
+.ui.vertical.stripe {
+  padding: 8em 0em;
+}
+.ui.vertical.stripe h3 {
+  font-size: 2em;
+}
+.ui.vertical.stripe .button + h3,
+.ui.vertical.stripe p + h3 {
+  margin-top: 3em;
+}
+.ui.vertical.stripe .floated.image {
+  clear: both;
+}
+.ui.vertical.stripe p {
+  font-size: 1.33em;
+}
+.ui.vertical.stripe .horizontal.divider {
+  margin: 3em 0em;
+}
+.secondary.pointing.menu .toc.item {
+    display: none;
+}
+
+@media only screen and (max-width: 700px) {
+    .ui.fixed.menu {
+        display: none !important;
+    }
+    .secondary.pointing.menu .item,
+    .secondary.pointing.menu .menu {
+        display: none;
+    }
+    .secondary.pointing.menu .toc.item {
+        display: block;
+    }
+    .masthead.segment {
+        min-height: 80px;
+    }
+    .masthead h1.ui.header {
+        font-size: 2em;
+    }
+    .masthead h2 {
+        margin-top: 0.5em;
+        font-size: 1.5em;
+    }
+}
+
+@media screen and (max-width:400px){
+    .alertIframe,.metricIframe{
+        border: none;
+        height: 200px;
+    }
+    .index_username{
+        max-width: 130px;
+    }
+}
+@media (min-width:400px) and (max-width:600px){
+    .alertIframe,.metricIframe{
+        height: 240px;
+    }
+    .index_username{
+        max-width: 220px;
+    }
+}
+@media (min-width:600px) and (max-width:800px){
+    .alertIframe,.metricIframe{
+        height: 260px;
+    }
+    .index_username{
+        max-width: 260px;
+    }
+}
+@media (min-width:800px) and (max-width:1000px){
+    .alertIframe,.metricIframe{
+        border: none;    
+        height: 300px;
+    }
+    .index_username{
+        max-width: 400px;
+    }
+}
+@media screen and (min-width:1000px){
+    .alertIframe,.metricIframe{
+        border: none;    
+        height: 300px;
+    }
+    .index_username{
+        max-width: 400px;
+    }
+}
+
+.index_username{
+    color:#eeeeee;
+    font-size: 1.4em;
+    margin-right: 0.3em;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.index_username:hover{
+    color:#eeeeee;
+}
+
+.ui.footer.segment {
+    padding: 5em 0em;
+}
+
+/*index.hbs*/
+#indexTopSegement{
+    padding: 4em 0;   
+    background-image:url(/images/databackground.jpg);     
+}
+
+/*alert.hbs*/
+#alertFormatTime{
+    margin-bottom: 0;
+}
+#alertNewMessage{
+    background: none;
+    border: none;
+    margin:1.5em 0 0;
+}
+#alertMessageArea{
+    padding: 1em 1.5em;
+}
+#alertLatestMessage{
+    max-width:20em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#alertMessageArea,#alertFurtureFunction{
+    border: none;
+    border-radius: .28571429rem;
+    background: #fff;
+    box-shadow: 0 1px 2px 0 rgba(34,36,38,.15), 0 0 0 1px rgba(34,36,38,.15);
+}
+#alertWholeContainer{
+    /* background: #252222; */
+    padding:5em 0 3em;
+}
+#alertWholeContainer p{
+    font-size: 1em;
+}
+#alertTableList tr td,#alertTableList{
+    border: none;
+}
+.alertMessageContent{
+    margin-left: 2.5em;
+}
+
+
+
+/*metric.hbs*/
+.metricIGraphUrl{
+    color:#cccccc;
+}
+.metricIGraphUrl:hover{
+    color:#ffffff;
+}
+#metricContainer {
+    margin:5em 0;
+}
+
+/*login.hbs*/
+@media screen and (max-width:420px){
+    .loginBox {
+        padding: 17em 3em 13em;
+    }
+}
+#loginErrorMessage{
+    margin: 1em 0;
+    height: 2em;
+    color: #9d2535;
+    font-weight: 700;
+    line-height: 2em;
+    font-size: 1.1em;
+}
+#loginSubmitButton{
+    background: #2185d0;
+    margin-top: 1.5em;
+}
+.loginInnerBox{
+    background-color: rgba(160,160,160,0.1);
+    padding: 6em 3em 2em;
+    border-radius: 1em;
+}
+#loginContainer{
+    max-width: 500px;
+}
+#loginFieldContainer{
+    padding: 1em 2em;
+}
+.loginHeader{
+    color: #fff!important;
+    font-size: 2.5em!important;
+}
+#loginUsername,#loginPassword{
+    height: 3em;
+    font-size: 1.1em;
+}

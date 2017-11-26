@@ -18,10 +18,10 @@ var MongoClient = require('mongodb').MongoClient;
 var expstate = require('express-state');
 var compression = require('compression');
 
-// require the routes
-var index = require('./routes/index');
-var api = require('./routes/api');
-
+// require the routes openkb
+var index = require('./routes/kb/index');
+var api = require('./routes/kb/api');
+// monitor routes
 var moniAlertIndex = require('./routes/moni/alert.js');
 var moniApiIndex = require('./routes/moni/api.js');
 var moniIndex = require('./routes/moni/index.js');
