@@ -188,16 +188,16 @@ exports.setTemplateDir = function (type, req){
     var config = exports.read_config();
     if(type !== 'admin'){
         // if theme selected, override the layout dir
-        var layoutDir = config.settings.theme ? path.join(__dirname, '../public/themes/', config.settings.theme, '/views/layouts/layout.hbs') : path.join(__dirname, '../views/layouts/layout.hbs');
-        var viewDir = config.settings.theme ? path.join(__dirname, '../public/themes/', config.settings.theme, '/views') : path.join(__dirname, '../views');
+        var layoutDir = config.settings.theme ? path.join(__dirname, '../../public/themes/', config.settings.theme, '/views/layouts/layout.hbs') : path.join(__dirname, '../../views/layouts/layout.hbs');
+        var viewDir = config.settings.theme ? path.join(__dirname, '../../public/themes/', config.settings.theme, '/views') : path.join(__dirname, '../../views');
 
         // set the views dir
         req.app.locals.settings.views = viewDir;
         req.app.locals.layout = layoutDir;
     }else{
         // set the views dir
-        req.app.locals.settings.views = path.join(__dirname, '../views/');
-        req.app.locals.layout = path.join(__dirname, '../views/layouts/layout.hbs');
+        req.app.locals.settings.views = path.join(__dirname, '../../views/');
+        req.app.locals.layout = path.join(__dirname, '../../views/layouts/layout.hbs');
     }
 };
 

@@ -125,7 +125,7 @@ router.post('/vote', function (req, res){
 router.get('/' + config.settings.route_name + '/:id/version', common.restrict, function (req, res){
     var db = req.app.db;
     common.config_expose(req.app);
-    var classy = require('../public/javascripts/markdown-it-classy');
+    var classy = require('../../public/javascripts/markdown-it-classy');
     var markdownit = req.markdownit;
     markdownit.use(classy);
 
@@ -169,7 +169,7 @@ router.get('/' + config.settings.route_name + '/:id/version', common.restrict, f
 router.get('/' + config.settings.route_name + '/:id', common.restrict, function (req, res){
     var db = req.app.db;
     common.config_expose(req.app);
-    var classy = require('../public/javascripts/markdown-it-classy');
+    var classy = require('../../public/javascripts/markdown-it-classy');
     var markdownit = req.markdownit;
     markdownit.use(classy);
 

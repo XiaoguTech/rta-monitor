@@ -208,7 +208,7 @@ router.post('/api/test',function(req,res){
 router.get('/api/:id',function(req,res){
     var db = req.app.db;
     common.config_expose(req.app);
-    var classy = require('../public/javascripts/markdown-it-classy');
+    var classy = require('../../public/javascripts/markdown-it-classy');
     var markdownit = req.markdownit;
     markdownit.use(classy);
     
