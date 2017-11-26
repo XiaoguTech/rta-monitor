@@ -6,26 +6,7 @@ var fs=require('fs');
 /* GET alert page. */
 router.get('/', function(req, res, next) {
   if(req.session.moni.user!=null){
-    var orgID=req.session.moni.user;
-    var db = req.app.db;
-    db.moni_alerts.findOne({"orgID":orgID},function(err,data){
-      if(data != null){
-        var jsonObj=data;
-        var alertArray=jsonObj["alertArray"];
-        var latestTime=alertArray[0].time;
-        var latestMessage=alertArray[0].message;
-        for(var obj in alertArray){
-          var time=new Date(alertArray[obj].time);
-          var showTime=time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate()+" "+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
-          alertArray[obj].time=showTime;
-        }
-        var formatTime=alertArray[0].time;
-        res.render('moni/alert', { title: '报警信息',user: req.session.moni.user,alertArray:alertArray,latestTime:latestTime,latestMessage:latestMessage,formatTime:formatTime});
-      }else{
-        res.status(400).json({message:"没有报警信息，需要添加处理"});
-      }
-      return;
-    });    
+    res.render('moni/alert', { title: '报警信息',user: req.session.moni.user});
   }else{
     res.redirect('/login');     
   }
@@ -34,21 +15,23 @@ router.get('/', function(req, res, next) {
 
 router.get('/refresh',function(req,res){
   var orgID=req.session.moni.user;
-  var db = req.app.db;  
-  db.moni_alerts.find({"orgID":orgID},function(err,data){
-    if(data.length){
-      var jsonObj=data[0];
+  var db = req.app.db.moni_alerts;
+  db.findOne({"orgID":orgID},function(err,data){
+    if(data!=null){
+      var jsonObj=data;
       var alertArray=jsonObj["alertArray"];
       var latestTime=alertArray[0].time;
       var latestMessage=alertArray[0].message;
-      for(var obj in alertArray){
-        var time=new Date(alertArray[obj].time);
-        var showTime=time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate()+" "+time.getHours()+":"+time.getMinutes()+":"+time.getSeconds();
-        alertArray[obj].time=showTime;
-      }
+      var alertObject={
+        alertArray:alertArray,
+        latestTime:latestTime,
+        latestMessage:latestMessage
+      };
+      res.send(alertObject);
+    }else{
+      res.status(100).json({message:"nothing refresh"});
     }
-    var formatTime=alertArray[0].time;
-    res.send(alertArray);
+    return;
   });    
 
 });
@@ -75,7 +58,7 @@ router.get('/getNewNum',function(req,res){
       // not found 
       if(iAlertIndex === -1){
         return res.status(200).json({
-          message:"not found newer than your time stamp"
+          message:"not found"
         });
       }else{
         return res.status(200).json({iNewNum:iAlertIndex});
@@ -87,16 +70,12 @@ router.get('/getNewNum',function(req,res){
 
 
 /*
-get 方法
 alert/getLatestMessage?timestamp=xxx
-if 新消息的数量==0 返回数量
-else if 新消息的数量>0 返回数量、最新的消息内容和最新的时间戳
  */
-
 router.get('/getLatestMessage',function(req,res){
   var dTimeStamp = req.query.timestamp;
-  var sOrgID = req.session.moni.user;
-  var db = req.app.db.moni_alerts;
+  var sOrgID = req.session.user;
+  var db = req.app.db.alerts;
   db.findOne({"orgID":sOrgID},function(err,result){
     if(result == null){
       // not found orgID
@@ -112,12 +91,18 @@ router.get('/getLatestMessage',function(req,res){
       });
       // not found 
       if(iAlertIndex === -1){
-        return res.status(200).json({
-          message:"not found",
-          iNewNum:iAlertIndex,
-          sMessage:aAlert[0].message,
-          sTime:aAlert[0].time
-        });
+        if(aAlert.length>0){
+          return res.status(200).json({
+            message:"not found",
+            sMessage:aAlert[0].message,
+            sTime:aAlert[0].time
+          });
+        }else{
+          return res.status(200).json({
+            message:"not found",
+            iNewNum:iAlertIndex,
+          });
+        }
       }else{
         if(iAlertIndex === 0){
           return res.status(200).json({
@@ -132,6 +117,8 @@ router.get('/getLatestMessage',function(req,res){
         }
       }
     }
+    return;
   });
+  return;
 });
 module.exports = router;
