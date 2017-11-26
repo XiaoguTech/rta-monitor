@@ -12,7 +12,7 @@ var moment = require('moment');
 var fs = require('fs');
 var Nedb_store = require('nedb-session-store')(session);
 var remove_md = require('remove-markdown');
-var common = require('./routes/common');
+var common = require('./routes/kb/common');
 var config = common.read_config();
 var MongoClient = require('mongodb').MongoClient;
 var expstate = require('express-state');
@@ -61,9 +61,65 @@ if(config.settings.theme){
     }
 }
 
+app.enable('trust proxy');
+app.set('port', process.env.PORT || 3000);
+app.set('bind', process.env.BIND || '0.0.0.0');
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser('5TOCyfH3HuszKGzFZntk'));
+app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: 'pAgGxo8Hzg7PFlv1HpO8Eg0Y6xtP7zYx',
+    cookie: {
+        path: '/',
+        httpOnly: true,
+        maxAge: 3600000 * 24
+    },
+    store: new Nedb_store({
+        filename: 'data/sessions.db'
+    })
+}));
+
+app.use(function (req, res, next) {
+    if (!req.session.moni) {
+        req.session.moni={};
+        req.session.moni.user = null;
+        // req.session.moni.user = "test";
+        req.session.moni.orgId=null;
+    }
+    next();
+})
+// setup the app context
+var app_context = '';
+if(config.settings.app_context !== undefined && config.settings.app_context !== ''){
+    app_context = '/' + config.settings.app_context;
+}
+// frontend modules loaded from NPM
+app.use(app_context + '/static', express.static(path.join(__dirname, 'public/')));
+
+app.use(app_context + '/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+app.use(app_context + '/font-awesome', express.static(path.join(__dirname, 'node_modules/font-awesome/')));
+app.use(app_context + '/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist/')));
+app.use(app_context + '/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/')));
+app.use(app_context + '/bootstrapTabs', express.static(path.join(__dirname, 'node_modules/bootstrap/js/')));
+app.use(app_context + '/simplemde', express.static(path.join(__dirname, 'node_modules/simplemde/dist/')));
+app.use(app_context + '/markdown-it', express.static(path.join(__dirname, 'node_modules/markdown-it/dist/')));
+app.use(app_context + '/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
+app.use(app_context + '/fonts', express.static(path.join(__dirname, 'public/fonts')));
+app.use(app_context + '/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
+app.use(app_context + '/lunr', express.static(path.join(__dirname, 'node_modules/lunr')));
+app.use(app_context + '/favicon.png', express.static(path.join(__dirname, 'public/favicon.png')));
+
+// serving static content
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
 // view engine setup
-app.set('views', path.join(__dirname, '/views'));
 app.engine('hbs', handlebars({extname: 'hbs', layoutsDir: path.join(__dirname, '/views/layouts'), defaultLayout: 'layout.hbs', partialsDir: path.join(__dirname, '/views/moni/partial')}));
+app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'hbs');
 
 // helpers for the handlebar templating platform
@@ -178,29 +234,29 @@ handlebars = handlebars.create({
             return cssString;
         },
         ifCond: function(v1, operator, v2, options){
-			switch(operator){
-				case'==':
-					return(v1 === v2) ? options.fn(this) : options.inverse(this);
-				case'!=':
-					return(v1 !== v2) ? options.fn(this) : options.inverse(this);
-				case'===':
-					return(v1 === v2) ? options.fn(this) : options.inverse(this);
-				case'<':
-					return(v1 < v2) ? options.fn(this) : options.inverse(this);
-				case'<=':
-					return(v1 <= v2) ? options.fn(this) : options.inverse(this);
-				case'>':
-					return(v1 > v2) ? options.fn(this) : options.inverse(this);
-				case'>=':
-					return(v1 >= v2) ? options.fn(this) : options.inverse(this);
-				case'&&':
-					return(v1 && v2) ? options.fn(this) : options.inverse(this);
-				case'||':
-					return(v1 || v2) ? options.fn(this) : options.inverse(this);
-				default:
-					return options.inverse(this);
-			}
-		},
+            switch(operator){
+                case'==':
+                    return(v1 === v2) ? options.fn(this) : options.inverse(this);
+                case'!=':
+                    return(v1 !== v2) ? options.fn(this) : options.inverse(this);
+                case'===':
+                    return(v1 === v2) ? options.fn(this) : options.inverse(this);
+                case'<':
+                    return(v1 < v2) ? options.fn(this) : options.inverse(this);
+                case'<=':
+                    return(v1 <= v2) ? options.fn(this) : options.inverse(this);
+                case'>':
+                    return(v1 > v2) ? options.fn(this) : options.inverse(this);
+                case'>=':
+                    return(v1 >= v2) ? options.fn(this) : options.inverse(this);
+                case'&&':
+                    return(v1 && v2) ? options.fn(this) : options.inverse(this);
+                case'||':
+                    return(v1 || v2) ? options.fn(this) : options.inverse(this);
+                default:
+                    return options.inverse(this);
+            }
+        },
         is_an_admin: function (value, options){
             if(value === 'true'){
                 return options.fn(this);
@@ -209,61 +265,6 @@ handlebars = handlebars.create({
         }
     }
 });
-
-app.enable('trust proxy');
-app.set('port', process.env.PORT || 3000);
-app.set('bind', process.env.BIND || '0.0.0.0');
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser('5TOCyfH3HuszKGzFZntk'));
-app.use(session({
-    resave: false,
-    saveUninitialized: true,
-    secret: 'pAgGxo8Hzg7PFlv1HpO8Eg0Y6xtP7zYx',
-    cookie: {
-        path: '/',
-        httpOnly: true,
-        maxAge: 3600000 * 24
-    },
-    store: new Nedb_store({
-        filename: 'data/sessions.db'
-    })
-}));
-
-app.use(function (req, res, next) {
-    if (!req.session.moni) {
-        req.session.moni={};
-        req.session.moni.user = null;
-        // req.session.moni.user = "test";
-        req.session.moni.orgId=null;
-    }
-    next();
-})
-// setup the app context
-var app_context = '';
-if(config.settings.app_context !== undefined && config.settings.app_context !== ''){
-    app_context = '/' + config.settings.app_context;
-}
-
-// frontend modules loaded from NPM
-app.use(app_context + '/static', express.static(path.join(__dirname, 'public/')));
-app.use(app_context + '/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
-app.use(app_context + '/font-awesome', express.static(path.join(__dirname, 'node_modules/font-awesome/')));
-app.use(app_context + '/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist/')));
-app.use(app_context + '/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/')));
-app.use(app_context + '/bootstrapTabs', express.static(path.join(__dirname, 'node_modules/bootstrap/js/')));
-app.use(app_context + '/simplemde', express.static(path.join(__dirname, 'node_modules/simplemde/dist/')));
-app.use(app_context + '/markdown-it', express.static(path.join(__dirname, 'node_modules/markdown-it/dist/')));
-app.use(app_context + '/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
-app.use(app_context + '/fonts', express.static(path.join(__dirname, 'public/fonts')));
-app.use(app_context + '/javascripts', express.static(path.join(__dirname, 'public/javascripts')));
-app.use(app_context + '/lunr', express.static(path.join(__dirname, 'node_modules/lunr')));
-app.use(app_context + '/favicon.png', express.static(path.join(__dirname, 'public/favicon.png')));
-
-// serving static content
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Make stuff accessible to our router
 app.use(function (req, res, next){
 	req.markdownit = markdownit;

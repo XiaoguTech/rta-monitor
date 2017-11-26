@@ -11,7 +11,7 @@ exports.clear_session_value = function (session, session_var){
 
 exports.read_config = function(){
     // preferred path
-    var configFile = path.join(__dirname, '..', 'config', 'config.json');
+    var configFile = path.join(__dirname, '../..', 'config', 'config.json');
 
     // depreciated path
     var defaultConfigFile = path.join(__dirname, 'config.js');

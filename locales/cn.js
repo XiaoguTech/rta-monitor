@@ -184,5 +184,6 @@
 	"Email address": "Email address",
 	"Confirm password": "Confirm password",
 	"Complete setup": "Complete setup",
-	"Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\"": "Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\""
+	"Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\"": "Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\"",
+	"Cannot read property 'findOne' of undefined": "Cannot read property 'findOne' of undefined"
 }
