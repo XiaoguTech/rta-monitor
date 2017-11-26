@@ -1,48 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>{{title}}</title>
-  <link rel='stylesheet' href="/stylesheets/style.css"/>
-  <link rel="stylesheet" href="/stylesheets/semantic.min.css">
-  <link rel="stylesheet" href="/stylesheets/allStyle.css">
-  <script src="/javascripts/jquery-3.2.1.min.js"></script>
-  <script src="/javascripts/semantic.min.js"></script>
-  <script src="/javascripts/allJavascript.js"></script>
-</head>
-<body>
-<!-- Sidebar Menu -->
-<div class="ui vertical inverted sidebar menu">
-  <a class="active item" href="/">首页</a>
-  {{#if user}}
-    {{#if normalMenu}}
-      <div class="item">
-        <div class="header">
-          监控
-        </div>
-        <div class="menu">
-          {{#each normalMenu}}
-            <a class="item" href="/metric/monitor/{{this.category_id}}">{{this.category_name}}</a>
-          {{/each}}
-        </div>
-      </div>
-    {{else}}
-      <a class="item" href="/metric">监控</a>
-    {{/if}}
+<style>
+  body.pushable>.pusher{
+    height: 100%;
+    background: url(/images/databackground.jpg);
+  }
+  .ui.stacked.segment,.ui.stacked.segment::after{
+    box-shadow: none;
+    border: none;
+    background: none;
+  }
+  .ui.segment{
+    background: none;
+  }
+</style>
 
-    <a class="item" href="/alert">报警</a>
-    <a class="item" href="/logout">注销</a>
-  {{else}}
-    <a class="item" href="/login">登录</a>
-  {{/if}}
-</div>
-<div class="pusher">
-  {{> navigation}}
-  {{{body}}}
-  {{> footer}}
+<div class="ui middle aligned center aligned grid" style="height:100%">
+  <div class="column" id="loginContainer">
+    <div class="loginInnerBox">
+      <h2 class="ui header loginHeader">Broken Arrow</h2>
+      <form class="ui large form error" name="loginForm" id="loginForm" action="#" method="post">
+        <div class="ui stacked segment" id="loginFieldContainer">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input name="loginUsername" type="text" placeholder="组织代码" required="required" id="loginUsername"/>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input name="loginPassword" type="password" placeholder="Token" required="required" id="loginPassword"/>
+            </div>
+          </div>
+          <div class="ui fluid large teal submit button" id="loginSubmitButton">Login</div>
+          <div id="loginErrorMessage"></div>
+        </div>
+        <input type="hidden" value={{openid}} id="openid">
+      </form>
+    </div>
+
+  </div>
 </div>
 
-</body>
-</html>
+<script src="/javascripts/front_login.js"></script>
