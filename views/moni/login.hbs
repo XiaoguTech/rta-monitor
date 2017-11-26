@@ -1,73 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-        <link type="text/css" rel="stylesheet" href="stylesheets/loginStyle.css">
-        <script src="javascripts/jquery-3.2.1.min.js"></script>
-        <title>登录 | Login</title>
-        <style>
-            .ui{
-                display: none!important;
-            }
-        </style>
-    </head>
-    <body>  
-        <div class="accountView">
-            <div class="loginContainer">
-                <div class="loginBox">
-                    <div class="loginWrapper">
-                        <div class="loginHeader">
-                            Broken Arrow
-                        </div>
-                        <div class="loginContent">
-                            <form class="loginForm" name="loginForm" id="loginForm" action="#" method="post">
-                                <div class="userField">
-                                    <input name="username" type="text" placeholder="组织代码" required="required" id="username"/>
-                                </div>
-                                <div class="pswField">
-                                    <input name="password" type="password" placeholder="Token" required="required" id="password"/>
-                                </div>
-                                <input value="登录" type="submit">
-                            </form>
-                        </div>
-                        <div id="loginTip"></div>
-                    </div>
-                </div>
-            </div>
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>{{title}}</title>
+  <link rel='stylesheet' href="/stylesheets/style.css"/>
+  <link rel="stylesheet" href="/stylesheets/semantic.min.css">
+  <link rel="stylesheet" href="/stylesheets/allStyle.css">
+  <script src="/javascripts/jquery-3.2.1.min.js"></script>
+  <script src="/javascripts/semantic.min.js"></script>
+  <script src="/javascripts/allJavascript.js"></script>
+</head>
+<body>
+<!-- Sidebar Menu -->
+<div class="ui vertical inverted sidebar menu">
+  <a class="active item" href="/">首页</a>
+  {{#if user}}
+    {{#if normalMenu}}
+      <div class="item">
+        <div class="header">
+          监控
         </div>
-        <script>
-            $("#username").focus(function(){
-                $("#loginTip").html("");
-            });
-            $("#password").focus(function(){
-                $("#loginTip").html("");
-            });
-            $('#loginForm').submit(function(){
-                var username =$("#username").val();
-                var password=$("#password").val();
-                var openid=$("#openid").val();
-                var data={"username":username,"password":password,"openid":openid};
+        <div class="menu">
+          {{#each normalMenu}}
+            <a class="item" href="/metric/monitor/{{this.category_id}}">{{this.category_name}}</a>
+          {{/each}}
+        </div>
+      </div>
+    {{else}}
+      <a class="item" href="/metric">监控</a>
+    {{/if}}
 
-                $.ajax({
-                    url:"/checkLogin",
-                    type:"post",
-                    data:data,
-                    success:function(data,status){
-                        if(status=="success"){
-                            location.href="/";
-                        }
-                    },
-                    error:function(data,status){
-                        if(status=="error"){
-                            $("#loginTip").html("用户名或密码错误");
-                        }
-                    }
-                });
+    <a class="item" href="/alert">报警</a>
+    <a class="item" href="/logout">注销</a>
+  {{else}}
+    <a class="item" href="/login">登录</a>
+  {{/if}}
+</div>
+<div class="pusher">
+  {{> navigation}}
+  {{{body}}}
+  {{> footer}}
+</div>
 
-                return false;
-            });
-        </script>
-    </body>
+</body>
 </html>
