@@ -1,72 +1,58 @@
-
-<style>
-.ui.vertical.stripe{
-    padding:5em 0 3em;
-}
-#alert_container{
-    {{!-- background: #252222; --}}
-}
-.ui.label{
-    float: right;
-}
-</style>
-<div class="ui vertical stripe segment" id="alert_container">
-    <div class="ui middle aligned stackable grid container">
-        <div class="row">
-            <div class="six wide left floated column">
-                <h3 class="ui header">数据异常报警</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="sixteen wide column">
-                <iframe src="http://123.206.82.207:3000/dashboard-solo/db/voltage?refresh=5s&panelId=7&orgId=1&tab=metrics&theme=light" width="100%" style="border:none;"></iframe>
-            </div>
-        </div>
-        <div class="row">
-            <div class="sixteen wide column">
-                <div class="ui inverted dimmer">
-                    <div class="ui text loader">加载中，请稍后</div>
-                </div>
-                <div class="ui styled fluid accordion">
-                    <div class="title row active">
-                        <i class="dropdown icon"></i>
-                        {{this.latestMessage}}
-                        <label class="ui grey label"><span class="date">{{this.formatTime}}</span></label>                            
-                    </div>	
-                                            
-                    <div class="content active">
-                        <table class="ui selectable celled table" id="alertList">
-                            <tbody>
-                                {{#each this.alertArray}}
-                                    {{#if this.isRead}}
-                                    {{else}}
-                                        <tr>
-                                            <td>{{this.alertID}}</td>
-                                            <td>{{this.time}}</td>
-                                            <td>{{this.message}}</td>
-                                            <td>{{this.value}}</td>                       
-                                        </tr>
-                                    {{/if}}
-                                {{/each}}                                            
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="ui vertical stripe segment" id="alertWholeContainer">
+  <div class="ui middle aligned stackable grid container">
+    <div class="row">
+      <div class="six wide left floated column">
+        <h3 class="ui header"><a href="http://123.206.82.207:3000/dashboard-solo/db/voltage?refresh=10s&panelId=7&orgId=1&tab=metrics" target="_blank">数据异常报警</a></h3>
+      </div>
     </div>
-</div>
-<script>
-$('.ui.dropdown').dropdown();
-$('.ui.accordion').accordion();
-{{!-- $(function(){
-    $.ajax({
-        url:window.location.href+"/update",
-        success:function(){
+    <div class="row">
+      <div class="sixteen wide column">
+        <iframe src="http://123.206.82.207:3000/dashboard-solo/db/voltage?refresh=10s&panelId=7&orgId=1&tab=metrics" width="100%" style="border:none;" class="alertIframe"></iframe>
+      </div>
+    </div>
+    <div class="row">
+      <div class="ten wide column">
+        <div id="alertMessageArea">
+          <div>
+            <div class="ui icon hidden message" id="alertNewMessage">
+              <div class="ui compact menu">
+                <i><a class="item" id="refreshButton"><i class="icon mail"></i>新消息<div class="floating ui red label" id="alertNewMessageNum"></div></a></i>
+              </div>
+              <div class="content alertMessageContent">
+                <div class="header" id="alertLatestMessage"></div>
+                <p id="alertFormatTime"></p>
+                <div class="ui hidden message" id="timestamp"></div>
+              </div>
+            </div>
 
-        }
-    });
-        
-    $('.dimmer').removeClass('active');
-}); --}}
-</script>
+            <div class="ui icon message" id="alertLoadingMessage">
+              <i class="notched circle loading icon"></i>
+              <div class="content alertMessageContent">
+                <div class="header">稍候 </div>
+                <p>我们正在为您获取内容。</p>
+              </div>
+            </div>
+
+            <div class="ui success hidden message" id="alertSuccessMessage">
+              <div class="header">报警消息已是最新。</div>
+            </div>
+
+            <div class="ui negative hidden message" id="alertErrorMessage">
+              <div class="header">刷新失败，请检查网络连接</div>
+            </div>
+
+            <table class="ui selectable celled table" id="alertTableList">
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="four wide right floated column">
+
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/javascripts/front_alert.js"></script>
