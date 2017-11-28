@@ -4,8 +4,10 @@ body.pushable>.pusher{
 }
 </style>
 <div class="ui main container" id="solutionContainer">
+  {{#if show_alert}}
     <h1>报警监控</h1>
     <iframe src="{{alertPanelURL}}" frameborder="0" class="solutionIframe" width="100%"></iframe>
+  {{/if}}
     <h1>解决方案</h1>
     <div class="row">
         <div class="sixteen wide column" id="solutionMain">
@@ -15,5 +17,4 @@ body.pushable>.pusher{
             </div>
         </div>
     </div>
-
 </div>

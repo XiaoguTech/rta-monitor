@@ -27,7 +27,7 @@ var moniApiIndex = require('./routes/moni/api.js');
 var moniIndex = require('./routes/moni/index.js');
 var moniMetricIndex = require('./routes/moni/metric.js');
 var moniProblem = require('./routes/moni/problem.js');
-
+var moniSearch = require('./routes/moni/search.js');
 
 var app = express();
 
@@ -290,6 +290,7 @@ app.use('/alert', moniAlertIndex);
 app.use('/problem', moniProblem);
 app.use('/metric', moniMetricIndex);
 app.use('/api',moniApiIndex);
+app.use('/search',moniSearch);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next){
