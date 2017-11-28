@@ -110,7 +110,7 @@ router.get(['/search/:tag', '/topic/:tag'], common.restrict, function (req, res)
     // we search on the lunr indexes
     common.dbQuery(db.kb, {_id: {$in: lunr_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}}, null, null, function (err, results){
         common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
-            res.render('kb/index', {
+            res.render('moni/problem', {
                 title: 'Search results: ' + search_term,
                 search_results: results,
                 user_page: true,
