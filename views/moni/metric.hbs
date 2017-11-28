@@ -1,13 +1,20 @@
 <style type="text/css">
-  body.pushable>.pusher{
-    background: #111111;
-  }
+body.pushable>.pusher{
+  background: #111111;
+}
 </style>
 {{#if result}}
-  <div class="ui main container" id="metricContainer">
+<div class="ui main container" id="metricContainer">
     {{#each result}}
       <h1 class="ui header"><a href="{{this.url}}" target="_blank" class="metricIGraphUrl">{{this.name}}</a></h1>
       <iframe src={{this.url}} width="100%" class="metricIframe"></iframe>
     {{/each}}
-  </div>
+</div>
 {{/if}}
+
+
+
+
+
+
+

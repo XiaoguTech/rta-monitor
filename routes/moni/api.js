@@ -202,7 +202,8 @@ router.get('/solution/:alertID',function(req,res){
 				}else{
 					res.render('moni/solution',{
 						alertPanelURL:aArray[iAlertIndex].alertPanelURL,
-						openKBURL:aArray[iAlertIndex].openKBURL
+						openKBURL:aArray[iAlertIndex].openKBURL,
+						user: req.session.moni.user
 					});
 					return;// res.status(200).json(aArray[iAlertIndex]);
 				}

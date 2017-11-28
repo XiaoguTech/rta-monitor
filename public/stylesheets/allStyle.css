@@ -76,6 +76,12 @@ body {
     .index_username{
         max-width: 130px;
     }
+    #alertPageContainer{
+        display: none;
+    }
+    #alertPageSelectContainer{
+        display: block;
+    }
 }
 @media (min-width:400px) and (max-width:600px){
     .alertIframe,.metricIframe{
@@ -84,6 +90,12 @@ body {
     .index_username{
         max-width: 220px;
     }
+    #alertPageContainer{
+        display: none;
+    }
+    #alertPageSelectContainer{
+        display: block;
+    }
 }
 @media (min-width:600px) and (max-width:800px){
     .alertIframe,.metricIframe{
@@ -91,6 +103,12 @@ body {
     }
     .index_username{
         max-width: 260px;
+    }
+    #alertPageContainer{
+        display: block;
+    }
+    #alertPageSelectContainer{
+        display: none;
     }
 }
 @media (min-width:800px) and (max-width:1000px){
@@ -101,6 +119,12 @@ body {
     .index_username{
         max-width: 400px;
     }
+    #alertPageContainer{
+        display: block;
+    }
+    #alertPageSelectContainer{
+        display: none;
+    }
 }
 @media screen and (min-width:1000px){
     .alertIframe,.metricIframe{
@@ -109,6 +133,12 @@ body {
     }
     .index_username{
         max-width: 400px;
+    }
+    #alertPageContainer{
+        display: block;
+    }
+    #alertPageSelectContainer{
+        display: none;
     }
 }
 
@@ -138,11 +168,13 @@ body {
 /*alert.hbs*/
 #alertFormatTime{
     margin-bottom: 0;
+    color:#fff;    
 }
 #alertNewMessage{
     background: none;
     border: none;
     margin:1.5em 0 0;
+    color:#fff;
 }
 #alertMessageArea{
     padding: 1em 1.5em;
@@ -156,7 +188,7 @@ body {
 #alertMessageArea,#alertFurtureFunction{
     border: none;
     border-radius: .28571429rem;
-    background: #fff;
+    background: #252222;
     box-shadow: 0 1px 2px 0 rgba(34,36,38,.15), 0 0 0 1px rgba(34,36,38,.15);
 }
 #alertWholeContainer{
@@ -168,18 +200,51 @@ body {
 }
 #alertTableList tr td,#alertTableList{
     border: none;
+    background: #252222;
+    color: #fff;
+}
+#alertLoadingMessage{
+    background: #252222;
+    color: #fff;
 }
 .alertMessageContent{
     margin-left: 2.5em;
 }
-
-
+#alertRefreshButton{
+    color:#fff;
+}
+#alertRefreshContainer{
+    background: #333333;
+}
+#alertPageContainer{
+    padding: 0.8em 0;
+    text-align: center;
+}
+.alertPageNum,.alertPageUp,.alertPageDown{
+    padding: 0.8em 1em;
+    margin:0 0.45em;
+    background-color: #333333;
+    color:#fff;
+}
+.alertPageUp i,.alertPageDown i{
+    width: 0.4em;
+}
+#alertPageSelectContainer{
+    text-align: right;
+}
+#alertPageSelect{
+    background: #252222;
+    border: 0.15em solid #555555;
+    padding: 0.6em 0.8em;
+    color: #fff;
+    border-radius: .28571429rem;
+}
 
 /*metric.hbs*/
-.metricIGraphUrl{
+.metricIGraphUrl,.alertGraphUrl{
     color:#cccccc;
 }
-.metricIGraphUrl:hover{
+.metricIGraphUrl:hover,.alertGraphUrl:hover{
     color:#ffffff;
 }
 #metricContainer {

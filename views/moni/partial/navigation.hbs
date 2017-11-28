@@ -18,13 +18,13 @@
               </div>
             </div>
           {{else}}
-            <a class="item" href="/metric">监控</a>
+              <a class="item" href="/metric">监控</a>
           {{/if}}
           <a class="item" href="/alert">报警</a>
         {{/if}}
         <div class="right item">
           {{#if user}}
-            <a class="ui inverted index_username">{{user}}</a>
+            <a class="ui inverted index_username">{{user}}</a>			
             <a class="ui inverted button" href="/logout">注销</a>
           {{else}}
             <a class="ui inverted button" href="/login">登录</a>

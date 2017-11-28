@@ -32,7 +32,6 @@ router.get('/refresh',function(req,res){
     res.send(alertObject);
     return;
   });    
-
 });
 /*
 return size from timestamp:intenger
@@ -74,7 +73,7 @@ alert/getLatestMessage?timestamp=xxx
 router.get('/getLatestMessage',function(req,res){
   var dTimeStamp = req.query.timestamp;
   var sOrgID = req.session.user;
-  var db = req.app.db.alerts;
+  var db = req.app.db.moni_alerts;
   db.findOne({"orgID":sOrgID},function(err,result){
     if(result == null){
       // not found orgID
