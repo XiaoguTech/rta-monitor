@@ -72,7 +72,7 @@ alert/getLatestMessage?timestamp=xxx
  */
 router.get('/getLatestMessage',function(req,res){
   var dTimeStamp = req.query.timestamp;
-  var sOrgID = req.session.user;
+  var sOrgID = req.session.moni.user;
   var db = req.app.db.moni_alerts;
   db.findOne({"orgID":sOrgID},function(err,result){
     if(result == null){
