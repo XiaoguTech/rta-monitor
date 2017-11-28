@@ -186,5 +186,12 @@
 	"Complete setup": "Complete setup",
 	"Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\"": "Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\"",
 	"Cannot read property 'findOne' of undefined": "Cannot read property 'findOne' of undefined",
-	"Cannot find module '../public/javascripts/markdown-it-classy'": "Cannot find module '../public/javascripts/markdown-it-classy'"
+	"Cannot find module '../public/javascripts/markdown-it-classy'": "Cannot find module '../public/javascripts/markdown-it-classy'",
+	"common is not defined": "common is not defined",
+	"config is not defined": "config is not defined",
+	"sortByField is not defined": "sortByField is not defined",
+	"Missing helper: \"ifBoth\"": "Missing helper: \"ifBoth\"",
+	"sortBy is not defined": "sortBy is not defined",
+	"Parse error on line 17:\n...l-md-8 col-lg-8\">  {{else}}  <div clas\n----------------------^\nExpecting 'EOF', got 'INVERSE'": "Parse error on line 17:\n...l-md-8 col-lg-8\">  {{else}}  <div clas\n----------------------^\nExpecting 'EOF', got 'INVERSE'",
+	"Missing helper: \"__\"": "Missing helper: \"__\""
 }

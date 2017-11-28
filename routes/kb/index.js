@@ -1610,4 +1610,40 @@ router.get('/sitemap.xml', function (req, res, next){
     });
 });
 
+router.get('/monicommon', function (req, res, next){
+    var db = req.app.db;
+    common.config_expose(req.app);
+    var featuredCount = config.settings.featured_articles_count ? config.settings.featured_articles_count : 4;
+
+    // set the template dir
+    common.setTemplateDir('user', req);
+
+    // get sortBy from config, set to 'kb_viewcount' if nothing found
+    var sortByField = typeof config.settings.sort_by.field !== 'undefined' ? config.settings.sort_by.field : 'kb_viewcount';
+    var sortByOrder = typeof config.settings.sort_by.order !== 'undefined' ? config.settings.sort_by.order : -1;
+    var sortBy = {};
+    sortBy[sortByField] = sortByOrder;
+
+    // get the top results based on sort order
+    common.dbQuery(db.kb, {kb_published: 'true'}, sortBy, config.settings.num_top_results, function (err, top_results){
+        common.dbQuery(db.kb, {kb_published: 'true', kb_featured: 'true'}, sortBy, featuredCount, function (err, featured_results){
+            res.render('kb/commonProblem', {
+                show_xiaogukb: true,
+                title: 'openKB',
+                user_page: true,
+                homepage: true,
+                top_results: top_results,
+                featured_results: featured_results,
+                session: req.session,
+                message: common.clear_session_value(req.session, 'message'),
+                message_type: common.clear_session_value(req.session, 'message_type'),
+                config: config,
+                current_url: req.protocol + '://' + req.get('host') + req.app_context,
+                fullUrl: req.protocol + '://' + req.get('host') + req.originalUrl,
+                helpers: req.handlebars,
+                show_xgnavigation: 'show_xgnavigation',
+            });
+        });
+    });
+});
 module.exports = router;

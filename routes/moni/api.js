@@ -3,6 +3,7 @@ var path = require('path');
 var fs = require('fs');
 var util = require("util")
 var router = express.Router();
+var common = require('../kb/common');
 
 // get all alert info from db
 router.get('/',function(req,res){
@@ -174,13 +175,18 @@ router.post('/solution', function(req,res){
 // /api/solution/alertID=xxx
 // return obj = {alertID:xxx,openKBURL:xxx,alertPanelURL:xxx}
 router.get('/solution/:alertID',function(req,res){
+	var db = req.app.db;
+    var classy = require('../../public/javascripts/markdown-it-classy');
+    var markdownit = req.markdownit;
+	markdownit.use(classy);
+	
+
 	var sAlertID = req.params.alertID;
 	var sOrgID = req.session.moni.user;
-	var db = req.app.db.moni_solutions;
 	if(db == null){
 		return res.status(200).json({messgae:"database is empty"});
 	}else{
-		db.findOne({"orgID":sOrgID},function(err,result){
+		db.moni_solutions.findOne({"orgID":sOrgID},function(err,result){
 			if(result == null){
 				return res.status(200).json({
 					message:"not found your orgID in the solution list",
@@ -194,23 +200,42 @@ router.get('/solution/:alertID',function(req,res){
 				if(iAlertIndex === -1){
 					return res.render('moni/error',{
 						message:"未找到对应解决方案，报告管理员。",
-						alertID:sAlertID
+						alertID:sAlertID,
+						user: req.session.moni.user,
 					});//status(200).json({
 					// 	message:"not found your alertID in the solution list",
 					// 	alertID:sAlertID
 					// });
 				}else{
-					res.render('moni/solution',{
-						alertPanelURL:aArray[iAlertIndex].alertPanelURL,
-						openKBURL:aArray[iAlertIndex].openKBURL,
-						user: req.session.moni.user
-					});
+					db.kb.find({kb_permalink:aArray[iAlertIndex].openKBURL},function(err,docs){
+						console.log(docs[0].kb_viewcount);
+						var result=docs[0];
+						res.render('moni/solution', {
+							title: result.kb_title,
+							result: result,
+							user_page: true,
+							kb_body: common.sanitizeHTML(markdownit.render(result.kb_body)),
+							alertPanelURL:aArray[iAlertIndex].alertPanelURL,
+							openKBURL:aArray[iAlertIndex].openKBURL,
+							user: req.session.moni.user,
+							activeAlert:true
+						});
+						return;
+					})
 					return;// res.status(200).json(aArray[iAlertIndex]);
 				}
 			}
 		});
 	}
 	return ;
+});
+
+
+
+router.get('/solutioncontent/:id',function(req,res){
+
+
+
 });
 
 // get all solution info from db

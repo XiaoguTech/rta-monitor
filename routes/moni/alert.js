@@ -6,7 +6,7 @@ var fs=require('fs');
 /* GET alert page. */
 router.get('/', function(req, res, next) {
   if(req.session.moni.user!=null){
-    res.render('moni/alert', { title: '报警信息',user: req.session.moni.user});
+    res.render('moni/alert', { title: '报警信息',user: req.session.moni.user,activeAlert:true});
   }else{
     res.redirect('/login');     
   }

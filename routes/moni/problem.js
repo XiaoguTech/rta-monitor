@@ -4,7 +4,10 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   if(req.session.moni.user!=null){
-    res.send('respond with a resource');
+    res.render('moni/problem', {
+      user: req.session.moni.user,
+      activeProblem:true,
+    });
   }else{
     res.redirect('/login');     
   }

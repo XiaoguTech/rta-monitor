@@ -69,7 +69,7 @@ body {
 }
 
 @media screen and (max-width:400px){
-    .alertIframe,.metricIframe{
+    .alertIframe,.metricIframe,.solutionIframe{
         border: none;
         height: 200px;
     }
@@ -84,7 +84,7 @@ body {
     }
 }
 @media (min-width:400px) and (max-width:600px){
-    .alertIframe,.metricIframe{
+    .alertIframe,.metricIframe,.solutionIframe{
         height: 240px;
     }
     .index_username{
@@ -98,7 +98,7 @@ body {
     }
 }
 @media (min-width:600px) and (max-width:800px){
-    .alertIframe,.metricIframe{
+    .alertIframe,.metricIframe,.solutionIframe{
         height: 260px;
     }
     .index_username{
@@ -112,7 +112,7 @@ body {
     }
 }
 @media (min-width:800px) and (max-width:1000px){
-    .alertIframe,.metricIframe{
+    .alertIframe,.metricIframe,.solutionIframe{
         border: none;    
         height: 300px;
     }
@@ -127,7 +127,7 @@ body {
     }
 }
 @media screen and (min-width:1000px){
-    .alertIframe,.metricIframe{
+    .alertIframe,.metricIframe,.solutionIframe{
         border: none;    
         height: 300px;
     }
@@ -158,6 +158,12 @@ body {
 .ui.footer.segment {
     padding: 5em 0em;
 }
+.activeMetric{
+    border-color: #fff!important;
+    font-weight: 700!important;
+}
+
+
 
 /*index.hbs*/
 #indexTopSegement{
@@ -287,4 +293,26 @@ body {
 #loginUsername,#loginPassword{
     height: 3em;
     font-size: 1.1em;
+}
+
+/*solution.hbs*/
+#solutionContainer {
+    margin:5em 0;
+    color:#fff;
+}
+#solutionMain{
+    background: #252222;
+    padding: 1.5em 2em 3em;
+    border-radius: .28571429rem;
+}
+#solutionMainTitle{
+    text-align: center;
+    font-size: 3.5em;
+    margin: 0.8em 0;
+}
+.body_text img{
+    max-width: 100%;
+}
+.body_text hr{
+    margin: 2em 0;
 }

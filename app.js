@@ -26,7 +26,7 @@ var moniAlertIndex = require('./routes/moni/alert.js');
 var moniApiIndex = require('./routes/moni/api.js');
 var moniIndex = require('./routes/moni/index.js');
 var moniMetricIndex = require('./routes/moni/metric.js');
-var moniUsers = require('./routes/moni/users.js');
+var moniProblem = require('./routes/moni/problem.js');
 
 
 var app = express();
@@ -287,7 +287,7 @@ if(app_context !== ''){
 //set up moni routes
 app.use('/', moniIndex);
 app.use('/alert', moniAlertIndex);
-app.use('/users', moniUsers);
+app.use('/problem', moniProblem);
 app.use('/metric', moniMetricIndex);
 app.use('/api',moniApiIndex);
 

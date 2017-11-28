@@ -8,7 +8,7 @@ var http = require('http');
 var sha1 = require('sha1');
 
 router.get('/', function(req, res, next) {
-  res.render('moni/index', { title: '首页',user: req.session.moni.user});
+  res.render('moni/index', { title: '首页',user: req.session.moni.user,activeIndex:true});
 });
 
 // 登录

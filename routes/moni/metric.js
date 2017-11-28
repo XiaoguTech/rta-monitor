@@ -27,7 +27,8 @@ router.get('/', function(req, res) {
         result: loadedURL.metric,
         normalMenu: loadedURL.normalMenu,
         alertMenu: null,
-        user: req.session.moni.user
+        user: req.session.moni.user,
+        activeMetric:true
       });
     });
   }
@@ -54,7 +55,8 @@ router.get('/monitor/:id', function(req, res) {
           result: loadedURL.metric,
           normalMenu: loadedURL.normalMenu,
           alertMenu: null,
-          user: req.session.moni.user
+          user: req.session.moni.user,
+          activeMetric:true
         });
     });
   }else{
