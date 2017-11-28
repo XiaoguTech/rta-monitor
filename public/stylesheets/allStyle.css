@@ -302,7 +302,7 @@ body {
 }
 #solutionMain{
     background: #252222;
-    padding: 1.5em 2em 3em;
+    padding: 1.5em 4em 3em;
     border-radius: .28571429rem;
 }
 #solutionMainTitle{
@@ -310,9 +310,86 @@ body {
     font-size: 3.5em;
     margin: 0.8em 0;
 }
+.body_text p{
+    font-size: 1.4em;
+}
 .body_text img{
     max-width: 100%;
 }
 .body_text hr{
     margin: 2em 0;
+}
+.body_text h1{
+    font-size: 3em;
+    margin: 0 0 0.4em;      
+}
+.body_text h2{
+    font-size: 2.7em;
+    margin: 0 0 0.4em;  
+}
+.body_text h3{
+    font-size: 2.4em;
+    margin: 0 0 0.6em;   
+}
+.body_text h4{
+    font-size: 2.1em;
+    margin: 0 0 0.6em; 
+}
+.body_text h5{
+    font-size: 1.8em;
+    margin: 0 0 0.8em;    
+}
+.body_text h6{
+    font-size: 1.5em;
+    margin: 0 0 0.8em;   
+}
+.body_text pre code{
+    overflow: auto;
+    width: 100%;
+    display: block;
+    padding: 0.6em 0.8em;
+    background: #333333;
+}
+.body_text table,.body_text ul,.body_text ol{
+    font-size: 1.4em;
+}
+.body_text a{
+    color:#3194d0;
+    font-weight: 700;
+}
+.body_text a:hover{
+    text-decoration: underline;
+}
+.body_text .hljs-keyword{
+    color: #ccc;
+    font-weight: bold;
+}
+.body_text .hljs-title{
+    color: #a00;
+    font-weight: bold;
+}
+.body_text .hljs-built_in{
+    color: #078ab6;
+}
+.body_text .hljs-string{
+    color: #d14;
+}
+.body_text blockquote {
+    padding: 10.5px 21px;
+    margin: 0 0 21px;
+    font-size: 18.75px;
+    border-left: 5px solid #ecf0f1;
+}
+.body_text .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 21px;
+}
+.body_text th {
+    text-align: left;
+}
+.body_text td{
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
 }
