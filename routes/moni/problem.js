@@ -24,7 +24,8 @@ router.get('/', function(req, res, next) {
       message: common.clear_session_value(req.session, 'message'),
       message_type: common.clear_session_value(req.session, 'message_type'),
       config: config,
-      helpers: req.handlebars
+      helpers: req.handlebars,
+      activeProblem:true
     });
     return;
   });
@@ -45,7 +46,8 @@ router.get('/:id',function(req,res){
       result: result,
       kb_body: common.sanitizeHTML(markdownit.render(result.kb_body)),
       openKBURL: req.params.id,
-      user: req.session.moni.user
+      user: req.session.moni.user,
+      activeProblem:true
     });
     return;
   });
