@@ -45,7 +45,7 @@ $(document).ready(function(){
                 if($('#frm_search').val().length > 2){
                     $.ajax({
                         method: 'POST',
-                        url: $('#app_context').val() + '/search_api',
+                        url: '/search/results',
                         data: {searchTerm: $('#frm_search').val()}
                     })
                     .done(function(response){
@@ -59,7 +59,7 @@ $(document).ready(function(){
                                 if(typeof faqLink === 'undefined' || faqLink === ''){
                                     faqLink = value._id;
                                 }
-                                var searchitem = '<li class="list-group-item"><a href="' + $('#app_context').val() + '/' + config.route_name + '/' + faqLink + '">' + value.kb_title + '</a></li>';
+                                var searchitem = '<li class="list-group-item"><a href="' + 'problem/' + faqLink + '">' + value.kb_title + '</a></li>';
                                 $('.searchResultList').append(searchitem);
                             });
                             $('#searchResult').removeClass('hidden');

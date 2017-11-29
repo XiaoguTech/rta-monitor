@@ -49,6 +49,30 @@ router.post('/', common.restrict, function (req, res){
         });
     });
 });
+//search result pop up
+router.post('/results', function (req, res){
+    var db = req.app.db;
+    var index = req.app.index;
+    
+    // we strip the ID's from the lunr index search
+    var index_id_array = [];
+    index.search(req.body.searchTerm).forEach(function (id){
+        // if mongoDB we use ObjectID's, else normal string ID's
+        if(config.settings.database.type !== 'embedded'){
+            index_id_array.push(common.getId(id.ref));
+        }else{
+            index_id_array.push(id.ref);
+        }
+    });
+    
+    common.dbQuery(db.kb, {_id: {$in: index_id_array}, kb_published: 'true', kb_versioned_doc: {$ne: true}}, null, null, function (err, results){
+        if(err){
+            return res.status(400).json({});
+        }
+        return res.status(200).json(results);
+    });
+});
+
 
 router.get('/articles/:tag', function (req, res){
     var db = req.app.db;
