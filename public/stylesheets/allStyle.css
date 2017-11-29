@@ -393,3 +393,8 @@ body {
     line-height: 1.42857143;
     vertical-align: top;
 }
+#solutionContainer .row{
+    display: block;
+    margin: 0;
+    flex-wrap: nowrap;
+}

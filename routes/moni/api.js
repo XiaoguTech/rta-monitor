@@ -211,6 +211,7 @@ router.get('/solution/:alertID',function(req,res){
 						console.log(docs[0].kb_viewcount);
 						var result=docs[0];
 						res.render('moni/solution', {
+							show_alert: true,
 							title: result.kb_title,
 							result: result,
 							user_page: true,
