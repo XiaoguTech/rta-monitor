@@ -23,21 +23,27 @@ router.get('/login',function(req,res){
 
 // 验证登录
 router.post('/checkLogin',function(req,res){
-  var uname=req.body['username'];
-  var pwd=sha1(req.body['password']);
+  var bcrypt = req.bcrypt;
   var db = req.app.db;
-  var status=400;    
-  db.moni_users.findOne({"userId":uname,"token":pwd},function(err,result){
-    if(result != null){
-        status=200;
-        req.session.moni={};
-        req.session.moni.user=uname;
-        req.session.moni.orgId=result.orgId;
-    }
-    res.status(status);
-    res.end();
+  var status = 400;
+  db.moni_users.findOne({"users_name":req.body.username},function(err,user){
+      if(user === undefined || user === null){
+          console.log("error,null user");
+      }else{
+          // we have a user under that email so we compare the password
+          if(bcrypt.compareSync(req.body.password, user.user_password) === true){
+              // req.session.user = req.body.email;
+              req.session.moni={};
+              req.session.moni.user = user.users_name;
+              req.session.moni.orgId = user._id.toString();
+              status=200;
+          }
+      }
+      res.status(status);
+      res.end();
+      return;
+  });
     return;
-  });   
 });
 
 // 登出

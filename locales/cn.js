@@ -193,5 +193,6 @@
 	"Missing helper: \"ifBoth\"": "Missing helper: \"ifBoth\"",
 	"sortBy is not defined": "sortBy is not defined",
 	"Parse error on line 17:\n...l-md-8 col-lg-8\">  {{else}}  <div clas\n----------------------^\nExpecting 'EOF', got 'INVERSE'": "Parse error on line 17:\n...l-md-8 col-lg-8\">  {{else}}  <div clas\n----------------------^\nExpecting 'EOF', got 'INVERSE'",
-	"Missing helper: \"__\"": "Missing helper: \"__\""
+	"Missing helper: \"__\"": "Missing helper: \"__\"",
+	"pwd is not defined": "pwd is not defined"
 }
