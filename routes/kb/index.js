@@ -808,8 +808,43 @@ router.get('/monitors',common.restrict,function(req,res){
         });
     });
 });
-router.get('/monitors/:orgId',common.restrict,function(req,res){
+
+router.get('/monitors/new',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
     
+    res.end();
+    return;
+});
+
+
+router.get('/monitors/:orgId',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result){
+        if(result != null){
+            res.render('kb/monicategorys', {
+                show_xiaogukb: true,
+                title: 'Categorys',
+                result: result,
+                config: config,
+                is_admin: req.session.is_admin,
+                helpers: req.handlebars,
+                session: req.session,
+                message: common.clear_session_value(req.session, 'message'),
+                message_type: common.clear_session_value(req.session, 'message_type')
+            });
+        }else{
+            res.status(500).json({error:err});
+        }
+    });
     res.end();
     return;
 });

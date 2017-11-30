@@ -98,6 +98,7 @@
 	"User email": "组织邮箱",
 	"User password": "密码",
 	"Password confirm": "确认密码",
+	"Category": "分类",
 	"New category": "新分类",
 	"Orgnization":"组织",
 	"Orgnization name": "组织名",
