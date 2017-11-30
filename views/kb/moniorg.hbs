@@ -1,0 +1,19 @@
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <ol class="breadcrumb">
+        <li><a href="{{app_context}}/">{{__ "Home"}}</a></li>
+        <li class="active">{{__ "Orgnization"}}</li>
+      </ol>
+      <h1>{{__ "Orgnization"}}</h1>
+      <ul class="list-group">
+        {{#each categorys}}
+          <li class="list-group-item">
+            <strong>{{__ "Orgnization name"}}:</strong>
+            <a href="{{app_context}}/monitors/{{this.orgId}}">{{this.orgId}}</a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>

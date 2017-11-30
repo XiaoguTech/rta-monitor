@@ -784,6 +784,58 @@ router.get('/users/new', common.restrict, function (req, res){
     });
 });
 
+//monitor
+router.get('/monitors',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db;
+    common.dbQuery(db.moni_categorys, {}, null, null, function (err, categorys){
+        // res.status(200).json(categorys);
+        // res.end();
+        res.render('kb/moniorg', {
+            show_xiaogukb: true,
+            title: 'Categorys',
+            categorys: categorys,
+            config: config,
+            is_admin: req.session.is_admin,
+            helpers: req.handlebars,
+            session: req.session,
+            message: common.clear_session_value(req.session, 'message'),
+            message_type: common.clear_session_value(req.session, 'message_type')
+        });
+    });
+});
+router.get('/monitors/:orgId',common.restrict,function(req,res){
+    
+    res.end();
+    return;
+});
+//solutions
+router.get('/solutions',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db;
+    common.dbQuery(db.moni_solutions, {}, null, null, function (err, solutions){
+        res.render('kb/monisolutions', {
+            show_xiaogukb: true,
+            title: 'Solutions',
+            solutions: solutions,
+            config: config,
+            is_admin: req.session.is_admin,
+            helpers: req.handlebars,
+            session: req.session,
+            message: common.clear_session_value(req.session, 'message'),
+            message_type: common.clear_session_value(req.session, 'message_type')
+        });
+    });
+});
+
 // kb list
 router.get('/articles', common.restrict, function (req, res){
     var db = req.app.db;

@@ -1,6 +1,6 @@
 {
 	"Toggle navigation": "Toggle navigation",
-	"Alerts": "Alerts",
+	"Solutions": "Alerts",
 	"Monitor": "Monitor",
 	"Users": "Users",
 	"New": "New",
