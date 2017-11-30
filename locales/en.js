@@ -1,5 +1,7 @@
 {
 	"Toggle navigation": "Toggle navigation",
+	"Alerts": "Alerts",
+	"Monitor": "Monitor",
 	"Users": "Users",
 	"New": "New",
 	"Edit": "Edit",

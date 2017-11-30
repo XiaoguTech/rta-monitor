@@ -1,5 +1,7 @@
 {
 	"Toggle navigation": "切换导航",
+	"Alerts": "报警",
+	"Monitor": "监控",
 	"Users": "用户",
 	"New": "新建",
 	"Edit": "编辑",
