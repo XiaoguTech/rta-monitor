@@ -349,6 +349,7 @@ body {
     display: block;
     padding: 0.6em 0.8em;
     background: #333333;
+    color: #fff;
 }
 .body_text table,.body_text ul,.body_text ol{
     font-size: 1.4em;
@@ -397,4 +398,60 @@ body {
     display: block;
     margin: 0;
     flex-wrap: nowrap;
+}
+.search_bar .hidden{
+    display: none;
+}
+
+/*problem.hbs*/
+#problemContainer{
+    margin:4em 0;
+}
+#problemContainer .row{
+    display: block;
+    margin:5em 0;
+    flex-wrap: nowrap;
+}
+.problemList{
+    color:#fff;
+    background: #252222;
+    padding: 2.5em 3em;
+    border-radius: .28571429rem;
+    font-size: 1.6em;
+}
+.problemList .view_count{
+    font-size: 0.8em;
+}
+.problemList a{
+    color:#20b2aa;
+    font-weight: 700;
+}
+.problemList a:hover{
+    text-decoration: underline;
+}
+.problemTitle{
+    color:#cccccc;
+}
+.input-group #frm_search{
+    padding: 1.5em;
+    background: #252222;
+    border: 1px solid #666666;
+    color: #fff;
+}
+.input-group #btn_search{
+    background: #008080;
+    border: none;
+}
+#problemContainer #searchResult .searchResultList li{
+    border: none!important;
+    background: silver!important;
+}
+#problemContainer #problemContainer .ui.list>.item{
+    padding: 0.4em 0;
+}
+#problemContainer #searchResult .list-group-heading{
+    color: #666;
+}
+#problemContainer #searchResult .list-group-item a{
+    color: #000;
 }
