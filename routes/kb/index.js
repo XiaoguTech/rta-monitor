@@ -808,19 +808,7 @@ router.get('/monitors',common.restrict,function(req,res){
         });
     });
 });
-
-router.get('/monitors/new',common.restrict,function(req,res){
-    // only allow admin
-    if(req.session.is_admin !== 'true'){
-        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
-        return;
-    }
-    
-    res.end();
-    return;
-});
-
-
+//monitor--->org---->category list
 router.get('/monitors/:orgId',common.restrict,function(req,res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
@@ -844,10 +832,91 @@ router.get('/monitors/:orgId',common.restrict,function(req,res){
         }else{
             res.status(500).json({error:err});
         }
+        return;
     });
+    return;
+});
+
+// create a new category under an orgnization
+router.get('/monitors/:orgId/new',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result){
+        if(result != null){
+            res.render('kb/monicategory_new', {
+                show_xiaogukb: true,
+                title: 'Categorys',
+                result: result,
+                config: config,
+                is_admin: req.session.is_admin,
+                helpers: req.handlebars,
+                session: req.session,
+                message: common.clear_session_value(req.session, 'message'),
+                message_type: common.clear_session_value(req.session, 'message_type')
+            });
+        }else{
+            res.status(500).json({error:err});
+        }
+        return;
+    });
+    return;
+});
+
+//insert a category to the org
+router.post('/monitors/:orgId/category_insert',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result){
+        if(result != null){
+            var aCategory = result.categoryArray;
+            var iCategoryIndex = aCategory.findIndex(function(element){
+                return element.category_name === req.body.category_name;
+            });
+            if(iCategoryIndex === -1){
+                var oCategory = {
+                    category_name:req.body.category_name,
+                    category_id:aCategory.length,
+                    metric:new Array()
+                };
+                db.update({"orgId":req.params.orgId},{$push:{categoryArray:oCategory}},{},function(){});
+                req.session.message = req.i18n.__('Category inserted');
+                req.session.message_type = 'success';
+                res.redirect(req.app_context+'/monitors/'+req.params.orgId+'/new');
+            }
+            return;
+        }
+    });
+    return;
+});
+
+router.post('/monitors/:orgId/edit/:category_id',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
     res.end();
     return;
 });
+
+router.post('/monitors/:orgId/delete/:category_id',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    res.end();
+    return;
+});
+
 //solutions
 router.get('/solutions',common.restrict,function(req,res){
     // only allow admin

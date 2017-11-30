@@ -6,14 +6,14 @@
         <li><a href="{{app_context}}/monitors">{{__ "Orgnization"}}</a></li>
         <li class="active">{{__ "Category"}}</li>
       </ol>
-      <h1>{{__ "Category"}} <span class="pull-right"><a href="{{app_context}}/monitors/new" class="btn btn-primary">{{__ "New category"}}</a></span></h1>
+      <h1>{{__ "Category"}} <span class="pull-right"><a href="{{app_context}}/monitors/{{result.orgId}}/new" class="btn btn-primary">{{__ "New category"}}</a></span></h1>
       <ul class="list-group">
         {{#each result.categoryArray}}
           <li class="list-group-item">
             <strong>{{__ "Category"}}:</strong> {{this.category_name}}
                 {{#is_an_admin ../session.is_admin}}
-                  <a href="{{app_context}}/monitors/edit/{{this._id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                  <a href="{{app_context}}/monitors/delete/{{this._id}}" onclick="return confirm('{{__ "Are you sure you want to delete?"}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                  <a href="{{app_context}}/monitors/{{this.orgId}}/edit/{{this.category_id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                  <a href="{{app_context}}/monitors/{{this.orgId}}/delete/{{this.category_id}}" onclick="return confirm('{{__ "Are you sure you want to delete?"}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                 {{/is_an_admin}}
           </li>
         {{/each}}
