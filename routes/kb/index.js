@@ -724,7 +724,7 @@ router.get('/users', common.restrict, function (req, res){
     }
 
     var db = req.app.db;
-    common.dbQuery(db.users, {}, null, null, function (err, users){
+    common.dbQuery(db.moni_users, {}, null, null, function (err, users){
         res.render('kb/users', {
             show_xiaogukb: true,
             title: 'Users',
@@ -742,7 +742,7 @@ router.get('/users', common.restrict, function (req, res){
 // users
 router.get('/user/edit/:id', common.restrict, function (req, res){
     var db = req.app.db;
-    db.users.findOne({_id: common.getId(req.params.id)}, function (err, user){
+    db.moni_users.findOne({_id: common.getId(req.params.id)}, function (err, user){
         // if the user we want to edit is not the current logged in user and the current user is not
         // an admin we render an access denied message
         if(user.user_email !== req.session.user && req.session.is_admin === 'false'){
@@ -887,7 +887,7 @@ router.post('/user_insert', common.restrict, function (req, res){
     };
 
     // check for existing user
-    db.users.findOne({'user_email': req.body.user_email}, function (err, user){
+    db.moni_users.findOne({'user_email': req.body.user_email}, function (err, user){
         if(user){
             // user already exists with that email address
             console.error('Failed to insert user, possibly already exists: ' + err);
@@ -896,7 +896,7 @@ router.post('/user_insert', common.restrict, function (req, res){
             res.redirect(req.app_context + '/users/new');
         }else{
             // email is ok to be used.
-            db.users.insert(doc, function (err, doc){
+            db.moni_users.insert(doc, function (err, doc){
                 // show the view
                 if(err){
                     console.error('Failed to insert user: ' + err);
@@ -928,7 +928,7 @@ router.post('/user_update', common.restrict, function (req, res){
     var is_admin = req.body.user_admin === 'on' ? 'true' : 'false';
 
     // get the user we want to update
-    db.users.findOne({_id: common.getId(req.body.user_id)}, function (err, user){
+    db.moni_users.findOne({_id: common.getId(req.body.user_id)}, function (err, user){
         // if the user we want to edit is not the current logged in user and the current user is not
         // an admin we render an access denied message
         if(user.user_email !== req.session.user && req.session.is_admin === 'false'){
@@ -950,8 +950,8 @@ router.post('/user_update', common.restrict, function (req, res){
         if(req.body.user_password){
             update_doc.user_password = bcrypt.hashSync(req.body.user_password);
         }
-
-        db.users.update({_id: common.getId(req.body.user_id)},
+    
+        db.moni_users.update({_id: common.getId(req.body.user_id)},
             {
                 $set: update_doc
             }, {multi: false}, function (err, numReplaced){
@@ -1114,7 +1114,7 @@ router.get('/user/delete/:id', common.restrict, function (req, res){
     var db = req.app.db;
     // remove the article
     if(req.session.is_admin === 'true'){
-        db.users.remove({_id: common.getId(req.params.id)}, {}, function (err, numRemoved){
+        db.moni_users.remove({_id: common.getId(req.params.id)}, {}, function (err, numRemoved){
             req.session.message = req.i18n.__('User deleted.');
             req.session.message_type = 'success';
             res.redirect(req.app_context + '/users');
