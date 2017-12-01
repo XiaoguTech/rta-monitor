@@ -1275,7 +1275,27 @@ router.get('/solutions/:orgId',common.restrict,function(req,res){
     });
     return;
 });
-
+//update sum alert panel url
+router.post('/solutions/:orgId/updatesumpanelurl',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_solutions;
+    db.findOne({"orgID":req.params.orgId},function(err,result){
+        if(result!=null && req.body.sumpanel_url!=null && req.body.sumpanel_url!=result.alertSumUrl){
+            db.update({"orgID":req.params.orgId},{$set:{alertSumUrl:req.body.sumpanel_url}},{},function(){});
+            req.session.message = req.i18n.__('Sum alert panel updated');
+            req.session.message_type = 'success';
+            res.redirect(req.app_context+'/solutions/'+req.params.orgId);
+        }else{
+            res.status(400).json({message:"some error occured in updatesumpanelurl"});
+        }
+        return;
+    });
+    return;
+});
 // kb list
 router.get('/articles', common.restrict, function (req, res){
     var db = req.app.db;

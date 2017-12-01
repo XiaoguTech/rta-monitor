@@ -110,11 +110,11 @@
 	"Panels edit": "编辑监控",
 	"Orgnization": "组织",
 	"Orgnization name": "组织名",
-	"New Solutions":"新报警方案",
-	"New SumPanel":"更新报警总数Panel",
-	"SumPanel url":"报警总数Panel",
-	"All Solutions":"所有解决方案",
-	"AlertID":"规则名",
+	"New Solutions": "新报警方案",
+	"New SumPanel": "更新报警总数Panel",
+	"SumPanel url": "报警总数Panel",
+	"All Solutions": "所有解决方案",
+	"AlertID": "规则名",
 	"Create": "创建组织",
 	"A user with that email address already exists": "已有组织使用此邮箱地址",
 	"User": "组织",
@@ -216,5 +216,6 @@
 	"pwd is not defined": "pwd is not defined",
 	"Category deleted": "Category deleted",
 	"Panels deleted": "Panels deleted",
-	"Panel updated": "Panel updated"
+	"Panel updated": "Panel updated",
+	"Sum alert panel updated": "Sum alert panel updated"
 }

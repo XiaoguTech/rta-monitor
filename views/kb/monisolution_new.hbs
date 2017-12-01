@@ -1,0 +1,21 @@
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <ol class="breadcrumb">
+        <li><a href="{{app_context}}/solutions">{{__ "Orgnization"}}({{result.orgId}})</a></li>
+        <li class="active">{{__ "New category"}}</li>
+      </ol>
+      <h1>{{__ "New category"}}</h1>
+      <form method="post" id="edit_form" action="{{app_context}}/solutions/{{result.orgId}}/category_insert" data-toggle="validator">
+        <div class="form-group">
+          <label>{{__ "Category name"}} *</label>
+          <input type="text" class="form-control" name="category_name" required>
+        </div>
+        <div class="form-group">
+          <div class="pull-right">
+            <button type="submit" class="btn btn-primary">{{__ "Create new category"}}</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
