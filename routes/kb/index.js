@@ -1200,7 +1200,26 @@ router.post('/monitors/:orgId/:category_id/panel_update',common.restrict,functio
     var db = req.app.db.moni_categorys;
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
-            
+            var iCategoryIndex = result.categoryArray.findIndex(function(element){
+                return element.category_id = req.params.category_id;
+            });
+            if(iCategoryIndex === -1){
+                res.status(400).json({message:"error category id not found"});
+            }else{
+                var iMetric = result.categoryArray[iCategoryIndex].metric.findIndex(function(element){
+                    return element.name === req.body.panels_old_name;
+                });
+                if(iMetric===-1){
+                    res.status(400).json({message:"error panel old name not found"});
+                }else{
+                    result.categoryArray[iCategoryIndex].metric[iMetric].name=req.body.panels_name;
+                    result.categoryArray[iCategoryIndex].metric[iMetric].url=req.body.panels_url;
+                    db.update({"orgId":req.params.orgId},{$set:{categoryArray:result.categoryArray}},{},function(){});
+                    req.session.message = req.i18n.__('Panel updated');
+                    req.session.message_type = 'success';
+                    res.redirect(req.app_context+'/monitors/'+req.params.orgId+'/'+req.params.category_id);
+                }
+            }
         }
         return;
     });
