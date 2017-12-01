@@ -1028,9 +1028,60 @@ router.get('/monitors/:orgId/:category_id',common.restrict,function(req,res){
         return;
     });
     return;
-})
-
-
+});
+//new a panel
+router.get('/monitors/:orgId/:category_id/new',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result){
+        if(result != null){
+            var iCategoryIndex = result.categoryArray.findIndex(function(element){
+                return element.category_id = req.params.category_id;
+            });
+            if(iCategoryIndex === -1){
+                res.status(400).json({message:"not found your category"});
+            }else{
+                var oCategory = result.categoryArray[iCategoryIndex];
+                oCategory.orgId = req.params.orgId;
+                res.render('kb/monipanel_new',{
+                    show_xiaogukb: true,
+                    title: 'Panels',
+                    result: oCategory,
+                    config: config,
+                    is_admin: req.session.is_admin,
+                    helpers: req.handlebars,
+                    session: req.session,
+                    message: common.clear_session_value(req.session, 'message'),
+                    message_type: common.clear_session_value(req.session, 'message_type')
+                });
+            }
+        }
+        return;
+    });
+    return;
+});
+// insert a new panel
+router.get('/monitors/:orgId/:category_id/panel_insert',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result){
+        if(result != null){
+            var aCategory = result.categoryArray;
+            var iCategoryIndex = aCategory.findIndex(function(element){
+                return element.category_name === req.body.category_name;
+            });
+        }
+    });
+    return;
+});
 //solutions
 router.get('/solutions',common.restrict,function(req,res){
     // only allow admin

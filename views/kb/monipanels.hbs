@@ -7,7 +7,7 @@
         <li><a href="{{app_context}}/monitors/{{result.orgId}}">{{__ "Category"}}</a></li>
         <li class="active">{{__ "Panels"}}</li>
       </ol>
-      <h1>{{__ "Panels"}} <span class="pull-right"><a href="{{app_context}}/monitors/{{result.orgId}}/new" class="btn btn-primary">{{__ "New panels"}}</a></span></h1>
+      <h1>{{__ "Panels"}} <span class="pull-right"><a href="{{app_context}}/monitors/{{result.orgId}}/{{result.category_id}}/new" class="btn btn-primary">{{__ "New panels"}}</a></span></h1>
       <ul class="list-group">
         {{#each result.metric}}
           <li class="list-group-item">

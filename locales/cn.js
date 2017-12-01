@@ -105,6 +105,8 @@
 	"Category edit": "编辑分类",
 	"Panels":"监控",
 	"New panels":"新监控",
+	"Panels name":"监控名",
+	"Panels url":"监控图URL",
 	"Orgnization": "组织",
 	"Orgnization name": "组织名",
 	"Create": "创建组织",
