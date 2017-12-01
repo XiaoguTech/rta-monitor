@@ -10,7 +10,7 @@
       <ul class="list-group">
         {{#each result.categoryArray}}
           <li class="list-group-item">
-            <strong>{{__ "Category"}}:</strong> {{this.category_name}}
+            <strong>{{__ "Category"}}:</strong> <a href="{{app_context}}/monitors/{{../result.orgId}}/{{this.category_id}}">{{this.category_name}}</a>
             <span class="pull-right">
                 {{#is_an_admin ../session.is_admin}}
                   <a href="{{app_context}}/monitors/{{../result.orgId}}/edit/{{this.category_id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>

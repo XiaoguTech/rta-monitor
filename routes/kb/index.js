@@ -837,7 +837,6 @@ router.get('/monitors/:orgId',common.restrict,function(req,res){
     });
     return;
 });
-
 // create a new category under an orgnization
 router.get('/monitors/:orgId/new',common.restrict,function(req,res){
     // only allow admin
@@ -866,7 +865,6 @@ router.get('/monitors/:orgId/new',common.restrict,function(req,res){
     });
     return;
 });
-
 //insert a category to the org
 router.post('/monitors/:orgId/category_insert',common.restrict,function(req,res){
     // only allow admin
@@ -932,6 +930,7 @@ router.get('/monitors/:orgId/edit/:category_id',common.restrict,function(req,res
     });
     return;
 });
+//update category
 router.post('/monitors/:orgId/category_update',common.restrict,function(req,res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
@@ -967,7 +966,7 @@ router.post('/monitors/:orgId/category_update',common.restrict,function(req,res)
     });
     return;
 });
-
+//delete category
 router.get('/monitors/:orgId/delete/:category_id',common.restrict,function(req,res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
@@ -995,6 +994,42 @@ router.get('/monitors/:orgId/delete/:category_id',common.restrict,function(req,r
     });
     return;
 });
+//display panel lists
+router.get('/monitors/:orgId/:category_id',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result){
+        if(result != null){
+            var iCategoryIndex = result.categoryArray.findIndex(function(element){
+                return element.category_id = req.params.category_id;
+            });
+            if(iCategoryIndex === -1){
+                res.status(400).json({message:"not found your category id"});
+            }else{
+                var oCategory = result.categoryArray[iCategoryIndex];
+                oCategory.orgId = req.params.orgId;
+                res.render('kb/monipanels',{
+                    show_xiaogukb: true,
+                    title: 'Panels',
+                    result: oCategory,
+                    config: config,
+                    is_admin: req.session.is_admin,
+                    helpers: req.handlebars,
+                    session: req.session,
+                    message: common.clear_session_value(req.session, 'message'),
+                    message_type: common.clear_session_value(req.session, 'message_type')
+                });
+            }
+        }
+        return;
+    });
+    return;
+})
+
 
 //solutions
 router.get('/solutions',common.restrict,function(req,res){

@@ -103,6 +103,8 @@
 	"Category inserted": "分类插入成功",
 	"Create new category": "创建新分类",
 	"Category edit": "编辑分类",
+	"Panels":"监控",
+	"New panels":"新监控",
 	"Orgnization": "组织",
 	"Orgnization name": "组织名",
 	"Create": "创建组织",
