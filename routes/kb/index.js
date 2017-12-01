@@ -1065,7 +1065,7 @@ router.get('/monitors/:orgId/:category_id/new',common.restrict,function(req,res)
     return;
 });
 // insert a new panel
-router.get('/monitors/:orgId/:category_id/panel_insert',common.restrict,function(req,res){
+router.post('/monitors/:orgId/:category_id/panel_insert',common.restrict,function(req,res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
         res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
@@ -1076,12 +1076,43 @@ router.get('/monitors/:orgId/:category_id/panel_insert',common.restrict,function
         if(result != null){
             var aCategory = result.categoryArray;
             var iCategoryIndex = aCategory.findIndex(function(element){
-                return element.category_name === req.body.category_name;
+                // console.log(element.category_id);
+                return element.category_id === req.params.category_id;
             });
+            // console.log(iCategoryIndex);
+            // res.status(400).json({
+            //     index:iCategoryIndex,
+            //     categoryid:req.params.category_id,
+            //     orgid:req.params.orgId
+            // });
+            if(iCategoryIndex === -1){
+                res.status(400).json({message:"not found your category id"});
+            }else{
+                var oCategory =  aCategory[iCategoryIndex];
+                var aMetric = oCategory.metric;
+                var iMetricIndex = aMetric.findIndex(function(element){
+                    return element.name === req.body.panels_name
+                });
+                if(iMetricIndex === -1){
+                    var oMetric = {
+                        name:req.body.panels_name,
+                        url:req.body.panels_url
+                    }
+                    aCategory[iCategoryIndex].metric.push(oMetric);
+                    db.update({"orgId":req.params.orgId},{$set:{categoryArray:aCategory}},{},function(){});
+                    req.session.message = req.i18n.__('Category inserted');
+                    req.session.message_type = 'success';
+                    res.redirect(req.app_context+'/monitors/'+req.params.orgId+req.params.category_id+'/new');
+                }else{
+                    res.status(400).json({message:"not found your metric name"});
+                }
+            }
         }
+        return;
     });
     return;
 });
+
 //solutions
 router.get('/solutions',common.restrict,function(req,res){
     // only allow admin
