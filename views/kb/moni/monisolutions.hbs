@@ -3,7 +3,7 @@
     <div class="col-md-6 col-md-offset-3">
       <ol class="breadcrumb">
         <li><a href="{{app_context}}/solutions">{{__ "Orgnization"}}({{result.orgID}})</a></li>
-        <li class="active">{{__ "Solutions"}}</li>
+        <li class="active">{{__ "Solutions"}}( {{result.alertArray.length}} - {{__ "Pieces"}} )</li>
       </ol>
       <form method="post" id="edit_form" action="{{app_context}}/solutions/{{result.orgID}}/updatesumpanelurl" data-toggle="validator">
         <div class="form-group">

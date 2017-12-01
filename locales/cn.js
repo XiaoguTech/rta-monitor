@@ -114,6 +114,7 @@
 	"New SumPanel": "更新报警总数Panel",
 	"SumPanel url": "报警总数Panel",
 	"All Solutions": "所有解决方案",
+	"Pieces":"条",
 	"AlertID": "规则名",
 	"New solution": "新规则",
 	"Create new solution": "创建新规则",

@@ -793,9 +793,7 @@ router.get('/monitors',common.restrict,function(req,res){
     }
     var db = req.app.db;
     common.dbQuery(db.moni_categorys, {}, null, null, function (err, categorys){
-        // res.status(200).json(categorys);
-        // res.end();
-        res.render('kb/moniorg', {
+        res.render('kb/moni/moniorg', {
             show_xiaogukb: true,
             title: 'Categorys',
             categorys: categorys,
@@ -818,8 +816,8 @@ router.get('/monitors/:orgId',common.restrict,function(req,res){
     var db = req.app.db.moni_categorys;
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
-            // res.status(400).json(result);
-            res.render('kb/monicategorys', {
+            result._id = null;
+            res.render('kb/moni/monicategorys', {
                 show_xiaogukb: true,
                 title: 'Categorys',
                 result: result,
@@ -847,7 +845,8 @@ router.get('/monitors/:orgId/new',common.restrict,function(req,res){
     var db = req.app.db.moni_categorys;
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
-            res.render('kb/monicategory_new', {
+            result._id = null;
+            res.render('kb/moni/monicategory_new', {
                 show_xiaogukb: true,
                 title: 'Categorys',
                 result: result,
@@ -913,7 +912,8 @@ router.get('/monitors/:orgId/edit/:category_id',common.restrict,function(req,res
             }else{
                 var oCategory = result.categoryArray[iCategoryIndex];
                 oCategory.orgId = req.params.orgId;
-                res.render('kb/monicategory_edit',{
+                oCategory._id = null;
+                res.render('kb/moni/monicategory_edit',{
                     show_xiaogukb: true,
                     title: 'Edit Categorys',
                     result: oCategory,
@@ -1012,7 +1012,8 @@ router.get('/monitors/:orgId/:category_id',common.restrict,function(req,res){
             }else{
                 var oCategory = result.categoryArray[iCategoryIndex];
                 oCategory.orgId = req.params.orgId;
-                res.render('kb/monipanels',{
+                oCategory._id = null;
+                res.render('kb/moni/monipanels',{
                     show_xiaogukb: true,
                     title: 'Panels',
                     result: oCategory,
@@ -1047,7 +1048,8 @@ router.get('/monitors/:orgId/:category_id/new',common.restrict,function(req,res)
             }else{
                 var oCategory = result.categoryArray[iCategoryIndex];
                 oCategory.orgId = req.params.orgId;
-                res.render('kb/monipanel_new',{
+                oCategory._id = null;
+                res.render('kb/moni/monipanel_new',{
                     show_xiaogukb: true,
                     title: 'Panels',
                     result: oCategory,
@@ -1132,7 +1134,7 @@ router.get('/monitors/:orgId/:category_id/edit/:panel_name',common.restrict,func
                         orgId:req.params.orgId,
                         category_id:req.params.category_id,
                     };
-                    res.render('kb/monipanel_edit',{
+                    res.render('kb/moni/monipanel_edit',{
                         show_xiaogukb: true,
                         title: 'Edit Panels',
                         result: oDoc,
@@ -1229,7 +1231,7 @@ router.get('/solutions',common.restrict,function(req,res){
     }
     var db = req.app.db;
     common.dbQuery(db.moni_solutions, {}, null, null, function (err, solutions){
-        res.render('kb/moniorg_solution', {
+        res.render('kb/moni/moniorg_solution', {
             show_xiaogukb: true,
             title: 'Solutions',
             solutions: solutions,
@@ -1253,7 +1255,9 @@ router.get('/solutions/:orgId',common.restrict,function(req,res){
     var db = req.app.db.moni_solutions;
     db.findOne({"orgID":req.params.orgId},function(err,result){
         if(result!=null){
-            res.render('kb/monisolutions',{
+            result._id = null;
+            // result.arraylength = result.alertArray.length;
+            res.render('kb/moni/monisolutions',{
                 show_xiaogukb: true,
                 title: 'Alert Solutions',
                 result: result,
@@ -1300,7 +1304,8 @@ router.get('/solutions/:orgId/new',common.restrict,function(req,res){
     var db = req.app.db.moni_solutions;
     db.findOne({"orgID":req.params.orgId},function(err,result){
         if(result!=null){
-            res.render('kb/monisolution_new',{
+            result._id = null;
+            res.render('kb/moni/monisolution_new',{
                 show_xiaogukb: true,
                 title: 'Solutions',
                 result: result,
@@ -1372,7 +1377,7 @@ router.get('/solutions/:orgId/edit/:alertId',common.restrict,function(req,res){
                     openKBURL:result.alertArray[iAlertIndex].openKBURL,
                     alertPanelURL:result.alertArray[iAlertIndex].alertPanelURL
                 };
-                res.render('kb/monisolution_edit',{
+                res.render('kb/moni/monisolution_edit',{
                     show_xiaogukb: true,
                     title: 'Edit Solutions',
                     result: oDoc,
