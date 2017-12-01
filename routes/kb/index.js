@@ -1064,7 +1064,7 @@ router.get('/monitors/:orgId/:category_id/new',common.restrict,function(req,res)
     });
     return;
 });
-// insert a new panel
+// insert a new panel,need to fix some array findindex bug
 router.post('/monitors/:orgId/:category_id/panel_insert',common.restrict,function(req,res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
@@ -1074,9 +1074,7 @@ router.post('/monitors/:orgId/:category_id/panel_insert',common.restrict,functio
     var db = req.app.db.moni_categorys;
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
-            var aCategory = result.categoryArray;
-            var iCategoryIndex = aCategory.findIndex(function(element){
-                // console.log(element.category_id);
+            var iCategoryIndex = result.categoryArray.findIndex(function(element){
                 return element.category_id === req.params.category_id;
             });
             // console.log(iCategoryIndex);
@@ -1088,7 +1086,7 @@ router.post('/monitors/:orgId/:category_id/panel_insert',common.restrict,functio
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"not found your category id"});
             }else{
-                var oCategory =  aCategory[iCategoryIndex];
+                var oCategory =  result.categoryArray[iCategoryIndex];
                 var aMetric = oCategory.metric;
                 var iMetricIndex = aMetric.findIndex(function(element){
                     return element.name === req.body.panels_name
@@ -1098,7 +1096,7 @@ router.post('/monitors/:orgId/:category_id/panel_insert',common.restrict,functio
                         name:req.body.panels_name,
                         url:req.body.panels_url
                     }
-                    aCategory[iCategoryIndex].metric.push(oMetric);
+                    result.categoryArray[iCategoryIndex].metric.push(oMetric);
                     db.update({"orgId":req.params.orgId},{$set:{categoryArray:aCategory}},{},function(){});
                     req.session.message = req.i18n.__('Category inserted');
                     req.session.message_type = 'success';
@@ -1107,6 +1105,102 @@ router.post('/monitors/:orgId/:category_id/panel_insert',common.restrict,functio
                     res.status(400).json({message:"not found your metric name"});
                 }
             }
+        }
+        return;
+    });
+    return;
+});
+//edit a panel,render kb/monipanel_edit
+router.get('/monitors/:orgId/:category_id/edit/:panel_name',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result) {
+        if(result != null){
+            var iCategoryIndex = result.categoryArray.findIndex(function(element){
+                return element.category_id = req.params.category_id;
+            });
+            if(iCategoryIndex === -1){
+                res.status(400).json({message:"not found category"});
+            }else{
+                var iMetric = result.categoryArray[iCategoryIndex].metric.findIndex(function(element){
+                    return element.name === req.params.panel_name;
+                });
+                if(iMetric === -1){
+                    res.status(400).json({message:"error,not found your metric name"})
+                }else{
+                    var oDoc = {
+                        name:result.categoryArray[iCategoryIndex].metric[iMetric].name,
+                        url:result.categoryArray[iCategoryIndex].metric[iMetric].url,
+                        orgId:req.params.orgId,
+                        category_id:req.params.category_id,
+                    };
+                    res.render('kb/monipanel_edit',{
+                        show_xiaogukb: true,
+                        title: 'Edit Panels',
+                        result: oDoc,
+                        config: config,
+                        is_admin: req.session.is_admin,
+                        helpers: req.handlebars,
+                        session: req.session,
+                        message: common.clear_session_value(req.session, 'message'),
+                        message_type: common.clear_session_value(req.session, 'message_type')
+                    });
+                }
+            }
+            return;
+        }
+    });
+    return;
+});
+//delete a panel,render kb/monipanel_edit
+router.get('/monitors/:orgId/:category_id/delete/:panel_name',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result) {
+        if(result != null){
+            var iCategoryIndex = result.categoryArray.findIndex(function(element){
+                return element.category_id = req.params.category_id;
+            });
+            if(iCategoryIndex === -1){
+                res.status(400).json({message:"not found category"});
+            }else{
+                var iMetric = result.categoryArray[iCategoryIndex].metric.findIndex(function(element){
+                    return element.name === req.params.panel_name;
+                });
+                if(iMetric === -1){
+                    res.status(400).json({message:"error,not found your metric name"})
+                }else{
+                    result.categoryArray[iCategoryIndex].metric.splice(iMetric,1);
+                    db.update({"orgId":req.params.orgId},{$set:{categoryArray:result.categoryArray}},{},function(){});
+                    req.session.message = req.i18n.__('Panels deleted');
+                    req.session.message_type = 'success';
+                    res.redirect(req.app_context+'/monitors/'+req.params.orgId+'/'+req.params.category_id);
+                }
+            }
+        }
+        return;
+    });
+    return;
+});
+//update a panel
+router.post('/monitors/:orgId/:category_id/panel_update',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result){
+        if(result != null){
+            
         }
         return;
     });

@@ -103,10 +103,11 @@
 	"Category inserted": "分类插入成功",
 	"Create new category": "创建新分类",
 	"Category edit": "编辑分类",
-	"Panels":"监控",
-	"New panels":"新监控",
-	"Panels name":"监控名",
-	"Panels url":"监控图URL",
+	"Panels": "监控",
+	"New panels": "新监控",
+	"Panels name": "监控名",
+	"Panels url": "监控图URL",
+	"Panels edit": "编辑监控",
 	"Orgnization": "组织",
 	"Orgnization name": "组织名",
 	"Create": "创建组织",
@@ -208,5 +209,6 @@
 	"Parse error on line 17:\n...l-md-8 col-lg-8\">  {{else}}  <div clas\n----------------------^\nExpecting 'EOF', got 'INVERSE'": "Parse error on line 17:\n...l-md-8 col-lg-8\">  {{else}}  <div clas\n----------------------^\nExpecting 'EOF', got 'INVERSE'",
 	"Missing helper: \"__\"": "Missing helper: \"__\"",
 	"pwd is not defined": "pwd is not defined",
-	"Category deleted": "Category deleted"
+	"Category deleted": "Category deleted",
+	"Panels deleted": "Panels deleted"
 }

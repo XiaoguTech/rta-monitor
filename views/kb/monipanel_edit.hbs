@@ -9,18 +9,19 @@
         <li class="active">{{__ "Panels edit"}}</li>
       </ol>
       <h1>{{__ "Panels edit"}}</h1>
-      <form method="post" id="edit_form" action="{{app_context}}/monitors/{{result.orgId}}/{{result.category_id}}/panel_insert" data-toggle="validator">
+      <form method="post" id="edit_form" action="{{app_context}}/monitors/{{result.orgId}}/{{result.category_id}}/panel_update" data-toggle="validator">
+        <input type="hidden" name="panels_old_name" value="{{result.name}}" />
         <div class="form-group">
           <label>{{__ "Panels name"}} *</label>
-          <input type="text" class="form-control" name="panels_name" required>
+          <input type="text" class="form-control" name="panels_name" value={{result.name}} required>
         </div>
         <div class="form-group">
           <label>{{__ "Panels url"}} *</label>
-          <input type="text" class="form-control" name="panels_url" required>
+          <input type="text" class="form-control" name="panels_url" value={{result.url}} required>
         </div>
         <div class="form-group">
           <div class="pull-right">
-            <button type="submit" class="btn btn-primary">{{__ "Create new category"}}</button>
+            <button type="submit" class="btn btn-primary">{{__ "Update"}}</button>
           </div>
         </div>
     </div>
