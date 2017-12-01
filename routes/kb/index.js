@@ -1226,7 +1226,7 @@ router.post('/monitors/:orgId/:category_id/panel_update',common.restrict,functio
     return;
 });
 
-//solutions
+//render solution orgs
 router.get('/solutions',common.restrict,function(req,res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
@@ -1235,7 +1235,7 @@ router.get('/solutions',common.restrict,function(req,res){
     }
     var db = req.app.db;
     common.dbQuery(db.moni_solutions, {}, null, null, function (err, solutions){
-        res.render('kb/monisolutions', {
+        res.render('kb/moniorg_solution', {
             show_xiaogukb: true,
             title: 'Solutions',
             solutions: solutions,
@@ -1247,6 +1247,33 @@ router.get('/solutions',common.restrict,function(req,res){
             message_type: common.clear_session_value(req.session, 'message_type')
         });
     });
+});
+
+//render coresponding org's solutions list
+router.get('/solutions/:orgId',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_solutions;
+    db.findOne({"orgID":req.params.orgId},function(err,result){
+        if(result!=null){
+            res.render('kb/monisolutions',{
+                show_xiaogukb: true,
+                title: 'Alert Solutions',
+                result: result,
+                config: config,
+                is_admin: req.session.is_admin,
+                helpers: req.handlebars,
+                session: req.session,
+                message: common.clear_session_value(req.session, 'message'),
+                message_type: common.clear_session_value(req.session, 'message_type')
+            });
+        }
+        return;
+    });
+    return;
 });
 
 // kb list

@@ -2,23 +2,35 @@
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
       <ol class="breadcrumb">
-        <li><a href="{{app_context}}/monitors">{{__ "Orgnization"}}</a></li>
-        <li class="active">{{__ "Category"}}</li>
+        <li><a href="{{app_context}}/solutions">{{__ "Orgnization"}}({{result.orgID}})</a></li>
+        <li class="active">{{__ "Solutions"}}</li>
       </ol>
-      <h1>{{__ "Category"}} <span class="pull-right"><a href="{{app_context}}/monitors/{{result.orgId}}/new" class="btn btn-primary">{{__ "New category"}}</a></span></h1>
+      <form method="post" id="edit_form" action="{{app_context}}/solutions/{{result.orgID}}/updatesumpanelurl" data-toggle="validator">
+        <div class="form-group">
+          <label>{{__ "SumPanel url"}} *</label>
+          <input type="text" class="form-control" name="panels_name" value={{result.alertSumUrl}} required>
+        </div>
+        <div class="form-group">
+          <div class="pull-right">
+            <button type="submit" class="btn btn-primary">{{__ "Update"}}</button>
+          </div>
+        </div>
+      </form>
+      <br><br>
+      <hr/>
+      <h1>{{__ "All Solutions"}} <span class="pull-right"><a href="{{app_context}}/solutions/{{result.orgID}}/new" class="btn btn-primary">{{__ "New Solutions"}}</a></span></h1>
       <ul class="list-group">
-        {{#each result.categoryArray}}
+        {{#each result.alertArray}}
           <li class="list-group-item">
-            <strong>{{__ "Category"}}:</strong> <a href="{{app_context}}/monitors/{{../result.orgId}}/{{this.category_id}}">{{this.category_name}}</a>
+            <strong>{{__ "AlertID"}}:</strong>{{this.alertID}}
             <span class="pull-right">
               {{#is_an_admin ../session.is_admin}}
-                <a href="{{app_context}}/monitors/{{../result.orgId}}/edit/{{this.category_id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                  <a href="{{app_context}}/monitors/{{../result.orgId}}/delete/{{this.category_id}}" onclick="return confirm('{{__ "Are you sure you want to delete?"}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                <a href="{{app_context}}/solutions/{{../result.orgID}}/edit/{{this.alertID}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a href="{{app_context}}/solutions/{{../result.orgID}}/delete/{{this.alertID}}" onclick="return confirm('{{__ "Are you sure you want to delete?"}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
               {{/is_an_admin}}
             </span>
           </li>
         {{/each}}
-      </ul>
     </div>
   </div>
 </div>
