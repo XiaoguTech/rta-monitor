@@ -210,5 +210,6 @@
 	"Missing helper: \"__\"": "Missing helper: \"__\"",
 	"pwd is not defined": "pwd is not defined",
 	"Category deleted": "Category deleted",
-	"Panels deleted": "Panels deleted"
+	"Panels deleted": "Panels deleted",
+	"Panel updated": "Panel updated"
 }

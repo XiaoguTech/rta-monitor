@@ -1097,10 +1097,10 @@ router.post('/monitors/:orgId/:category_id/panel_insert',common.restrict,functio
                         url:req.body.panels_url
                     }
                     result.categoryArray[iCategoryIndex].metric.push(oMetric);
-                    db.update({"orgId":req.params.orgId},{$set:{categoryArray:aCategory}},{},function(){});
+                    db.update({"orgId":req.params.orgId},{$set:{categoryArray:result.categoryArray}},{},function(){});
                     req.session.message = req.i18n.__('Category inserted');
                     req.session.message_type = 'success';
-                    res.redirect(req.app_context+'/monitors/'+req.params.orgId+req.params.category_id+'/new');
+                    res.redirect(req.app_context+'/monitors/'+req.params.orgId+'/'+req.params.category_id);
                 }else{
                     res.status(400).json({message:"not found your metric name"});
                 }
@@ -1201,7 +1201,7 @@ router.post('/monitors/:orgId/:category_id/panel_update',common.restrict,functio
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
             var iCategoryIndex = result.categoryArray.findIndex(function(element){
-                return element.category_id = req.params.category_id;
+                return element.category_id === req.params.category_id;
             });
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"error category id not found"});
