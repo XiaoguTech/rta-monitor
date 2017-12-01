@@ -25,7 +25,7 @@
 	"Search": "搜索",
 	"Featured articles": "推荐文章",
 	"Top articles": "热门文章",
-	"Category": "目录导航",
+	"Category": "分类",
 	"Current": "当前列表",
 	"Suggest": "建议",
 	"Login": "登陆",
@@ -98,12 +98,12 @@
 	"User email": "组织邮箱",
 	"User password": "密码",
 	"Password confirm": "确认密码",
-	"Category": "分类",
 	"Category name": "分类名",
 	"New category": "新分类",
-	"Category inserted":"分类插入成功",
+	"Category inserted": "分类插入成功",
 	"Create new category": "创建新分类",
-	"Orgnization":"组织",
+	"Category edit": "编辑分类",
+	"Orgnization": "组织",
 	"Orgnization name": "组织名",
 	"Create": "创建组织",
 	"A user with that email address already exists": "已有组织使用此邮箱地址",
@@ -203,5 +203,6 @@
 	"sortBy is not defined": "sortBy is not defined",
 	"Parse error on line 17:\n...l-md-8 col-lg-8\">  {{else}}  <div clas\n----------------------^\nExpecting 'EOF', got 'INVERSE'": "Parse error on line 17:\n...l-md-8 col-lg-8\">  {{else}}  <div clas\n----------------------^\nExpecting 'EOF', got 'INVERSE'",
 	"Missing helper: \"__\"": "Missing helper: \"__\"",
-	"pwd is not defined": "pwd is not defined"
+	"pwd is not defined": "pwd is not defined",
+	"Category deleted": "Category deleted"
 }

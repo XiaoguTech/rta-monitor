@@ -818,6 +818,7 @@ router.get('/monitors/:orgId',common.restrict,function(req,res){
     var db = req.app.db.moni_categorys;
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
+            // res.status(400).json(result);
             res.render('kb/monicategorys', {
                 show_xiaogukb: true,
                 title: 'Categorys',
@@ -896,24 +897,102 @@ router.post('/monitors/:orgId/category_insert',common.restrict,function(req,res)
     });
     return;
 });
-
-router.post('/monitors/:orgId/edit/:category_id',common.restrict,function(req,res){
+//edit category
+router.get('/monitors/:orgId/edit/:category_id',common.restrict,function(req,res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
         res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
-    res.end();
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result) {
+        if(result != null){
+            var iCategoryIndex = result.categoryArray.findIndex(function(element){
+                return element.category_id = req.params.category_id;
+            });
+            if(iCategoryIndex === -1){
+                res.status(400).json({message:"not found category"});
+            }else{
+                var oCategory = result.categoryArray[iCategoryIndex];
+                oCategory.orgId = req.params.orgId;
+                res.render('kb/monicategory_edit',{
+                    show_xiaogukb: true,
+                    title: 'Edit Categorys',
+                    result: oCategory,
+                    config: config,
+                    is_admin: req.session.is_admin,
+                    helpers: req.handlebars,
+                    session: req.session,
+                    message: common.clear_session_value(req.session, 'message'),
+                    message_type: common.clear_session_value(req.session, 'message_type')
+                });
+            }
+            return;
+        }
+    });
+    return;
+});
+router.post('/monitors/:orgId/category_update',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result){
+        if(result != null){
+            var iCategoryIndex = result.categoryArray.findIndex(function(element){
+                return element.category_id = req.body.category_id;
+            });
+            if(iCategoryIndex === -1){
+                res.status(400).json({message:"error category id not found"});
+            }else if(result.categoryArray[iCategoryIndex] === req.body.category_name){
+                res.status(400).json({message:"error category name conflict"});
+            }else{
+                var aCategory = result.categoryArray;
+                aCategory.splice(iCategoryIndex,1);
+                var oCategory = {
+                    category_name:req.body.category_name,
+                    category_id:req.body.category_id,
+                    metric:aCategory[iCategoryIndex].metric
+                };
+                aCategory.push(oCategory);
+                db.update({"orgId":req.params.orgId},{$set:{categoryArray:aCategory}},{},function(){});
+                req.session.message = req.i18n.__('Category inserted');
+                req.session.message_type = 'success';
+                res.redirect(req.app_context+'/monitors/'+req.params.orgId+'/edit/'+req.body.category_id);
+            }
+        }
+        return;
+    });
     return;
 });
 
-router.post('/monitors/:orgId/delete/:category_id',common.restrict,function(req,res){
+router.get('/monitors/:orgId/delete/:category_id',common.restrict,function(req,res){
     // only allow admin
     if(req.session.is_admin !== 'true'){
         res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
-    res.end();
+    var db = req.app.db.moni_categorys;
+    db.findOne({"orgId":req.params.orgId},function(err,result){
+        if(result != null){
+            var iCategoryIndex = result.categoryArray.findIndex(function(element){
+                return element.category_id = req.params.category_id;
+            });
+            if(iCategoryIndex === -1){
+                res.status(400).json({message:"error category id not found"});
+            }else{
+                var aCategory = result.categoryArray;
+                aCategory.splice(iCategoryIndex,1);
+                db.update({"orgId":req.params.orgId},{$set:{categoryArray:aCategory}},{},function(){});
+                req.session.message = req.i18n.__('Category deleted');
+                req.session.message_type = 'success';
+                res.redirect(req.app_context+'/monitors/'+req.params.orgId);
+            }
+        }
+        return;
+    });
     return;
 });
 
