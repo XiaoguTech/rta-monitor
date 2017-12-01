@@ -115,6 +115,11 @@
 	"SumPanel url": "报警总数Panel",
 	"All Solutions": "所有解决方案",
 	"AlertID": "规则名",
+	"New solution": "新规则",
+	"Create new solution": "创建新规则",
+	"OpenKBURL": "解决方案文章编号",
+	"AlertPanelURL": "报警监控链接",
+	"Solution edit": "编辑规则",
 	"Create": "创建组织",
 	"A user with that email address already exists": "已有组织使用此邮箱地址",
 	"User": "组织",
@@ -217,5 +222,7 @@
 	"Category deleted": "Category deleted",
 	"Panels deleted": "Panels deleted",
 	"Panel updated": "Panel updated",
-	"Sum alert panel updated": "Sum alert panel updated"
+	"Sum alert panel updated": "Sum alert panel updated",
+	"alert rule updated": "alert rule updated",
+	"Rule deleted": "Rule deleted"
 }

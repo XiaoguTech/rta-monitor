@@ -1077,12 +1077,6 @@ router.post('/monitors/:orgId/:category_id/panel_insert',common.restrict,functio
             var iCategoryIndex = result.categoryArray.findIndex(function(element){
                 return element.category_id === req.params.category_id;
             });
-            // console.log(iCategoryIndex);
-            // res.status(400).json({
-            //     index:iCategoryIndex,
-            //     categoryid:req.params.category_id,
-            //     orgid:req.params.orgId
-            // });
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"not found your category id"});
             }else{
@@ -1291,6 +1285,168 @@ router.post('/solutions/:orgId/updatesumpanelurl',common.restrict,function(req,r
             res.redirect(req.app_context+'/solutions/'+req.params.orgId);
         }else{
             res.status(400).json({message:"some error occured in updatesumpanelurl"});
+        }
+        return;
+    });
+    return;
+});
+//new a solution
+router.get('/solutions/:orgId/new',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_solutions;
+    db.findOne({"orgID":req.params.orgId},function(err,result){
+        if(result!=null){
+            res.render('kb/monisolution_new',{
+                show_xiaogukb: true,
+                title: 'Solutions',
+                result: result,
+                config: config,
+                is_admin: req.session.is_admin,
+                helpers: req.handlebars,
+                session: req.session,
+                message: common.clear_session_value(req.session, 'message'),
+                message_type: common.clear_session_value(req.session, 'message_type')
+            });
+        }else{
+            res.status(400).json({message:"error occured in new a solution"});
+        }
+        return;
+    });
+    return;
+});
+//insert a new solution
+router.post('/solutions/:orgId/insert',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_solutions;
+    db.findOne({"orgID":req.params.orgId},function(err,result){
+        if(result!=null){
+            var iAlertIndex = result.alertArray.findIndex(function(element){
+                return element.alertID === req.body.new_alertId;
+            });
+            if(iAlertIndex === -1){
+                var oDoc = {
+                    alertID:req.body.new_alertId,
+                    openKBURL:req.body.new_openKB,
+                    alertPanelURL:req.body.new_alertPanel
+                };
+                result.alertArray.push(oDoc);
+                db.update({"orgID":req.params.orgId},{$set:{alertArray:result.alertArray}},{},function(){});
+                req.session.message = req.i18n.__('Sum alert panel updated');
+                req.session.message_type = 'success';
+                res.redirect(req.app_context+'/solutions/'+req.params.orgId+'/new');
+            }else{
+                res.status(400).json({message:"error alertid conflict"});
+            }
+        }
+        return;
+    });
+    return;
+});
+//render edit solution page
+router.get('/solutions/:orgId/edit/:alertId',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_solutions;
+    db.findOne({"orgID":req.params.orgId},function(err,result){
+        if(result!=null){
+            var iAlertIndex = result.alertArray.findIndex(function(element){
+                return element.alertID === req.params.alertId;
+            });
+            if(iAlertIndex === -1){
+                res.status(400).json({message:"error occured in edit a solution alertID"});
+            }else{
+                var oDoc = {
+                    orgID:req.params.orgId,
+                    alertID:req.params.alertId,
+                    openKBURL:result.alertArray[iAlertIndex].openKBURL,
+                    alertPanelURL:result.alertArray[iAlertIndex].alertPanelURL
+                };
+                res.render('kb/monisolution_edit',{
+                    show_xiaogukb: true,
+                    title: 'Edit Solutions',
+                    result: oDoc,
+                    config: config,
+                    is_admin: req.session.is_admin,
+                    helpers: req.handlebars,
+                    session: req.session,
+                    message: common.clear_session_value(req.session, 'message'),
+                    message_type: common.clear_session_value(req.session, 'message_type')
+                });
+            }
+        }else{
+            res.status(400).json({message:"error occured in edit a solution"});
+        }
+        return;
+    });
+    return;
+});
+//render edit solution page
+router.get('/solutions/:orgId/delete/:alertId',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_solutions;
+    db.findOne({"orgID":req.params.orgId},function(err,result){
+        if(result!=null){
+            var iAlertIndex = result.alertArray.findIndex(function(element){
+                return element.alertID === req.params.alertId;
+            });
+            if(iAlertIndex !== -1){
+                result.alertArray.splice(iAlertIndex,1);
+                db.update({"orgID":req.params.orgId},{$set:{alertArray:result.alertArray}},{},function(){});
+                req.session.message = req.i18n.__('Rule deleted');
+                req.session.message_type = 'success';
+                res.redirect(req.app_context+'/solutions/'+req.params.orgId);
+            }
+        }else{
+            res.status(400).json({message:"error occured in edit a solution"});
+        }
+        return;
+    });
+    return;
+});
+//update a solution
+router.post('/solutions/:orgId/update',common.restrict,function(req,res){
+    // only allow admin
+    if(req.session.is_admin !== 'true'){
+        res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
+        return;
+    }
+    var db = req.app.db.moni_solutions;
+    db.findOne({"orgID":req.params.orgId},function(err,result){
+        if(result!=null){
+            var iAlertIndex = result.alertArray.findIndex(function(element){
+                return element.alertID === req.body.old_alertId;
+            });
+            if(iAlertIndex === -1){
+                res.status(400).json({message:"error occured in update a solution alertID"});
+            }else{
+                var oDoc = {
+                    alertID:req.body.new_alertId,
+                    openKBURL:req.body.new_openKB,
+                    alertPanelURL:req.body.new_alertPanel
+                };
+                result.alertArray.splice(iAlertIndex,1,oDoc);
+                db.update({"orgID":req.params.orgId},{$set:{alertArray:result.alertArray}},{},function(){});
+                req.session.message = req.i18n.__('alert rule updated');
+                req.session.message_type = 'success';
+                res.redirect(req.app_context+'/solutions/'+req.params.orgId);
+            }
+        }else{
+            res.status(400).json({message:"error occured in edit a solution"});
         }
         return;
     });
