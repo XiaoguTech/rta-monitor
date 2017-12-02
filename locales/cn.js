@@ -108,6 +108,7 @@
 	"Panels name": "监控名",
 	"Panels url": "监控图URL",
 	"Panels edit": "编辑监控",
+	"Panels new":"新建监控",
 	"Orgnization": "组织",
 	"Orgnization name": "组织名",
 	"New Solutions": "新报警方案",

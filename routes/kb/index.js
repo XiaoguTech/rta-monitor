@@ -1133,6 +1133,7 @@ router.get('/monitors/:orgId/:category_id/edit/:panel_name',common.restrict,func
                         url:result.categoryArray[iCategoryIndex].metric[iMetric].url,
                         orgId:req.params.orgId,
                         category_id:req.params.category_id,
+                        category_name:result.categoryArray[iCategoryIndex].category_name
                     };
                     res.render('kb/moni/monipanel_edit',{
                         show_xiaogukb: true,
