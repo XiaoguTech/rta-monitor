@@ -905,7 +905,7 @@ router.get('/monitors/:orgId/edit/:category_id',common.restrict,function(req,res
     db.findOne({"orgId":req.params.orgId},function(err,result) {
         if(result != null){
             var iCategoryIndex = result.categoryArray.findIndex(function(element){
-                return element.category_id = req.params.category_id;
+                return element.category_id === req.params.category_id;
             });
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"not found category"});
@@ -941,7 +941,7 @@ router.post('/monitors/:orgId/category_update',common.restrict,function(req,res)
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
             var iCategoryIndex = result.categoryArray.findIndex(function(element){
-                return element.category_id = req.body.category_id;
+                return element.category_id === req.body.category_id;
             });
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"error category id not found"});
@@ -949,17 +949,16 @@ router.post('/monitors/:orgId/category_update',common.restrict,function(req,res)
                 res.status(400).json({message:"error category name conflict"});
             }else{
                 var aCategory = result.categoryArray;
-                aCategory.splice(iCategoryIndex,1);
                 var oCategory = {
                     category_name:req.body.category_name,
                     category_id:req.body.category_id,
                     metric:aCategory[iCategoryIndex].metric
                 };
-                aCategory.push(oCategory);
+                aCategory.splice(iCategoryIndex,1,oCategory);
                 db.update({"orgId":req.params.orgId},{$set:{categoryArray:aCategory}},{},function(){});
                 req.session.message = req.i18n.__('Category inserted');
                 req.session.message_type = 'success';
-                res.redirect(req.app_context+'/monitors/'+req.params.orgId+'/edit/'+req.body.category_id);
+                res.redirect(req.app_context+'/monitors/'+req.params.orgId);
             }
         }
         return;
@@ -1041,7 +1040,7 @@ router.get('/monitors/:orgId/:category_id/new',common.restrict,function(req,res)
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
             var iCategoryIndex = result.categoryArray.findIndex(function(element){
-                return element.category_id = req.params.category_id;
+                return element.category_id === req.params.category_id;
             });
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"not found your category"});
@@ -1117,7 +1116,7 @@ router.get('/monitors/:orgId/:category_id/edit/:panel_name',common.restrict,func
     db.findOne({"orgId":req.params.orgId},function(err,result) {
         if(result != null){
             var iCategoryIndex = result.categoryArray.findIndex(function(element){
-                return element.category_id = req.params.category_id;
+                return element.category_id === req.params.category_id;
             });
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"not found category"});
@@ -1164,7 +1163,7 @@ router.get('/monitors/:orgId/:category_id/delete/:panel_name',common.restrict,fu
     db.findOne({"orgId":req.params.orgId},function(err,result) {
         if(result != null){
             var iCategoryIndex = result.categoryArray.findIndex(function(element){
-                return element.category_id = req.params.category_id;
+                return element.category_id === req.params.category_id;
             });
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"not found category"});
