@@ -977,7 +977,7 @@ router.get('/monitors/:orgId/delete/:category_id',common.restrict,function(req,r
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
             var iCategoryIndex = result.categoryArray.findIndex(function(element){
-                return element.category_id = req.params.category_id;
+                return element.category_id === req.params.category_id;
             });
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"error category id not found"});
