@@ -881,13 +881,13 @@ router.post('/monitors/:orgId/category_insert',common.restrict,function(req,res)
             if(iCategoryIndex === -1){
                 var oCategory = {
                     category_name:req.body.category_name,
-                    category_id:aCategory.length,
+                    category_id:aCategory.length.toString(),
                     metric:new Array()
                 };
                 db.update({"orgId":req.params.orgId},{$push:{categoryArray:oCategory}},{},function(){});
                 req.session.message = req.i18n.__('Category inserted');
                 req.session.message_type = 'success';
-                res.redirect(req.app_context+'/monitors/'+req.params.orgId+'/new');
+                res.redirect(req.app_context+'/monitors/'+req.params.orgId);
             }
             return;
         }
@@ -1005,7 +1005,7 @@ router.get('/monitors/:orgId/:category_id',common.restrict,function(req,res){
     db.findOne({"orgId":req.params.orgId},function(err,result){
         if(result != null){
             var iCategoryIndex = result.categoryArray.findIndex(function(element){
-                return element.category_id = req.params.category_id;
+                return element.category_id === req.params.category_id;
             });
             if(iCategoryIndex === -1){
                 res.status(400).json({message:"not found your category id"});
