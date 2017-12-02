@@ -114,7 +114,7 @@
 	"New SumPanel": "更新报警总数Panel",
 	"SumPanel url": "报警总数Panel",
 	"All Solutions": "所有解决方案",
-	"Pieces":"条",
+	"Pieces": "条",
 	"AlertID": "规则名",
 	"New solution": "新规则",
 	"Create new solution": "创建新规则",
@@ -225,5 +225,6 @@
 	"Panel updated": "Panel updated",
 	"Sum alert panel updated": "Sum alert panel updated",
 	"alert rule updated": "alert rule updated",
-	"Rule deleted": "Rule deleted"
+	"Rule deleted": "Rule deleted",
+	"req.app.db.moni_solutions is not a function": "req.app.db.moni_solutions is not a function"
 }

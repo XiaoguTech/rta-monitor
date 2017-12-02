@@ -6,7 +6,16 @@ var fs=require('fs');
 /* GET alert page. */
 router.get('/', function(req, res, next) {
   if(req.session.moni.user!=null){
-    res.render('moni/alert', { title: '报警信息',user: req.session.moni.user,activeAlert:true});
+    var db = req.app.db.moni_solutions.findOne({"orgID":req.session.moni.user},function(err,result){
+      if(result!=null){
+        res.render('moni/alert', {
+          title: '报警信息',
+          user: req.session.moni.user,
+          alertSumUrl:result.alertSumUrl,
+          activeAlert:true
+        });
+      }
+    });
   }else{
     res.redirect('/login');     
   }

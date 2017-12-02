@@ -7,12 +7,12 @@ body.pushable>.pusher{
     <div class="ui middle aligned stackable grid container">
         <div class="row">
             <div class="six wide left floated column">
-                <h1 class="ui header"><a href="http://123.206.82.207:3000/dashboard-solo/db/voltage?refresh=10s&panelId=7&orgId=1&tab=metrics" target="_blank" class="alertGraphUrl">数据异常报警</a></h1>
+                <h1 class="ui header"><a href="{{alertSumUrl}}" target="_blank" class="alertGraphUrl">数据异常报警</a></h1>
             </div>
         </div>
         <div class="row">
             <div class="sixteen wide column">
-                <iframe src="http://123.206.82.207:3000/dashboard-solo/db/voltage?refresh=10s&panelId=7&orgId=1&tab=metrics" width="100%" style="border:none;" class="alertIframe"></iframe>
+                <iframe src="{{alertSumUrl}}" width="100%" style="border:none;" class="alertIframe"></iframe>
             </div>
         </div>
         <div class="row">
