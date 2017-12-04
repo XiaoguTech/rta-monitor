@@ -42,27 +42,33 @@ router.get('/', function(req, res) {
 router.get('/monitor/:id', function(req, res) {
   if(req.session.moni.user!=null){
       var db = req.app.db;
-      var categoryId = req.params.id-1;
       db.moni_categorys.findOne({"orgId":req.session.moni.user}, function (err, docs) {
         if(docs!=null){
-          var loadedURL={};
-          loadedURL.metric=[];
-          loadedURL.normalMenu=[];
-          loadedURL.metric.push.apply(loadedURL.metric,docs.categoryArray[categoryId].metric);
-          for(var i in docs.categoryArray){
-            var obj={};
-            obj.category_name=docs.categoryArray[i].category_name;
-            obj.category_id=docs.categoryArray[i].category_id;
-            loadedURL.normalMenu.push(obj);
-          }
-          res.render('moni/metric', {
-            title: obj.category_name+'显示',
-            result: loadedURL.metric,
-            normalMenu: loadedURL.normalMenu,
-            alertMenu: null,
-            user: req.session.moni.user,
-            activeMetric:true
+          var categoryId = docs.categoryArray.findIndex(function(element){
+            return element.category_id  === req.params.id;
           });
+          if(categoryId!==-1){
+            var loadedURL={};
+            loadedURL.metric=[];
+            loadedURL.normalMenu=[];
+
+            loadedURL.metric.push.apply(loadedURL.metric,docs.categoryArray[categoryId].metric);
+            for(var i in docs.categoryArray){
+              var obj={};
+              obj.category_name=docs.categoryArray[i].category_name;
+              obj.category_id=docs.categoryArray[i].category_id;
+              loadedURL.normalMenu.push(obj);
+            }
+            res.render('moni/metric', {
+              title: '监控显示',
+              result: loadedURL.metric,
+              normalMenu: loadedURL.normalMenu,
+              alertMenu: null,
+              user: req.session.moni.user,
+              activeMetric:true
+            });
+            
+          }
         }
       return;
     });
