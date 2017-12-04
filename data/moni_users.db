@@ -1,4 +1,2 @@
 {"users_name":"admin","user_email":"admin@xiaogu-tech.com","user_password":"$2a$10$citLGgLWAc23ELwpYnGpw.B9/R1N3x910Pul48h9V2K0FBGVGlAni","is_admin":"true","_id":"1HtvVQbZP8xfXaug"}
 {"users_name":"house","user_email":"house@xg-tech.com","user_password":"$2a$10$blio28dVsyKGZY9CeFW2s.gShuaxzP89C5jDzgwrnWUPERRq7U7aO","is_admin":"false","_id":"N7bBv9UBir1FXFYZ"}
-{"users_name":"zq","user_email":"zq@xiaogu-tech.com","user_password":"$2a$10$mKQG8OboJ3gjRNwBNq1HJ.x3i3V0nNhQtuR9Gyuk5tb0ISaxuOojS","is_admin":"false","_id":"OFXyn2tzYg75gvb1"}
-{"users_name":"wsl","user_email":"wsl@xg-tech.com","user_password":"$2a$10$22Qj5RuU5mCMXEd6135yluz0yGlCSv.g.VTUBPT68w3Pohptaf5Gm","is_admin":"false","_id":"om6EXoYEaegXuFMX"}
