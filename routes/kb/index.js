@@ -911,17 +911,10 @@ router.post('/user_insert', common.restrict, function (req, res){
 
                     // var categorysDoc = {
                     //     orgId: req.body.users_name,
-                    //     categoryArray: req.body.user_email
+                    //     categoryArray: []
                     // };
                     
-                    // db.moni_categorys.insert(categorysDoc, function (err, doc){
-                    //     // show the view
-                    //     if(err){
-                       
-                    //     }else{
 
-                    //     }
-                    // });
 
 
                     // if from setup we add user to session and redirect to login.
