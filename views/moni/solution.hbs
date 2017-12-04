@@ -6,7 +6,9 @@ body.pushable>.pusher{
 <div class="ui main container" id="solutionContainer">
   {{#if show_alert}}
     <h1>报警监控</h1>
-    <iframe src="{{alertPanelURL}}" frameborder="0" class="solutionIframe" width="100%"></iframe>
+    {{#if alertPanelURL}}
+        <iframe src="{{alertPanelURL}}" frameborder="0" class="solutionIframe" width="100%"></iframe>
+    {{/if}}
   {{/if}}
     <h1>解决方案</h1>
     <div class="row">

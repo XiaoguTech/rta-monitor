@@ -228,5 +228,6 @@
 	"alert rule updated": "alert rule updated",
 	"Rule deleted": "Rule deleted",
 	"req.app.db.moni_solutions is not a function": "req.app.db.moni_solutions is not a function",
-	"Converting circular structure to JSON": "Converting circular structure to JSON"
+	"Converting circular structure to JSON": "Converting circular structure to JSON",
+	"Cannot read property 'hash' of undefined": "Cannot read property 'hash' of undefined"
 }

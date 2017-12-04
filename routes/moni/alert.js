@@ -14,6 +14,12 @@ router.get('/', function(req, res, next) {
           alertSumUrl:result.alertSumUrl,
           activeAlert:true
         });
+      }else{
+        res.render('moni/alert', {
+          title: '报警信息',
+          user: req.session.moni.user,
+          activeAlert:true
+        });
       }
     });
   }else{

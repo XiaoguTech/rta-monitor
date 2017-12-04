@@ -10,4 +10,8 @@ body.pushable>.pusher{
       <iframe src={{this.url}} width="100%" class="metricIframe"></iframe>
     {{/each}}
 </div>
+{{else}}
+<div class="ui main container" id="metricContainer">
+   <h1 class="ui header"><a href="javascript:" target="_blank" class="metricIGraphUrl">暂无监控</a></h1>
+</div>
 {{/if}}

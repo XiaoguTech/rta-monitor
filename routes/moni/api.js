@@ -199,7 +199,7 @@ router.get('/solution/:alertID',function(req,res){
 				});
 				if(iAlertIndex === -1){
 					return res.render('moni/error',{
-						message:"未找到对应解决方案，报告管理员。",
+						message:"未找到对应解决方案，请联系管理员。",
 						alertID:sAlertID,
 						user: req.session.moni.user,
 					});//status(200).json({

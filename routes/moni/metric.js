@@ -31,6 +31,13 @@ router.get('/', function(req, res) {
           user: req.session.moni.user,
           activeMetric:true
         });
+      }else{
+        res.render('moni/metric', {
+          title: '监控显示',
+          alertMenu: null,
+          user: req.session.moni.user,
+          activeMetric:true
+        });
       }
       return;
     });

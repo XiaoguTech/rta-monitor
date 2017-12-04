@@ -7,12 +7,19 @@ body.pushable>.pusher{
     <div class="ui middle aligned stackable grid container">
         <div class="row">
             <div class="six wide left floated column">
-                <h1 class="ui header"><a href="{{alertSumUrl}}" target="_blank" class="alertGraphUrl">数据异常报警</a></h1>
+                {{#if alertSumUrl}}
+                    <h1 class="ui header"><a href="{{alertSumUrl}}" target="_blank" class="alertGraphUrl">数据异常报警</a></h1>
+                {{else}}
+                    <h1 class="ui header"><a href="javascript:" target="_blank" class="alertGraphUrl">数据异常报警</a></h1>
+                {{/if}}
             </div>
         </div>
         <div class="row">
             <div class="sixteen wide column">
-                <iframe src="{{alertSumUrl}}" width="100%" style="border:none;" class="alertIframe"></iframe>
+                {{#if alertSumUrl}}
+                    <iframe src="{{alertSumUrl}}" width="100%" style="border:none;" class="alertIframe"></iframe>
+                {{else}}
+                {{/if}}
             </div>
         </div>
         <div class="row">
