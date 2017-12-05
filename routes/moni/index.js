@@ -23,7 +23,6 @@ router.get('/login',function(req,res){
 
 // 验证登录
 router.post('/checkLogin',function(req,res){
-  var bcrypt = req.bcrypt;
   var db = req.app.db;
   var status = 400;
   db.moni_users.findOne({"users_name":req.body.username},function(err,user){
@@ -31,7 +30,7 @@ router.post('/checkLogin',function(req,res){
           console.log("error,null user");
       }else{
           // we have a user under that email so we compare the password
-          if(bcrypt.compareSync(req.body.password, user.user_password) === true){
+          if(req.body.password===user.user_password){
               // req.session.user = req.body.email;
               req.session.moni={};
               req.session.moni.user = user.users_name;

@@ -122,6 +122,7 @@
 	"SumPanel url": "报警总数Panel",
 	"All Solutions": "所有解决方案",
 	"Pieces": "条",
+	"Classes": "类",
 	"AlertID": "规则名",
 	"New solution": "新规则",
 	"Create new solution": "创建新规则",
@@ -216,7 +217,6 @@
 	"Email address": "Email address",
 	"Confirm password": "Confirm password",
 	"Complete setup": "Complete setup",
-	"Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\"": "Failed to lookup view \"xiaogukb\" in views directory \"/Users/Zoking/Documents/WorkSpace/IDEAProjects/openKB/views\"",
 	"Cannot read property 'findOne' of undefined": "Cannot read property 'findOne' of undefined",
 	"Cannot find module '../public/javascripts/markdown-it-classy'": "Cannot find module '../public/javascripts/markdown-it-classy'",
 	"common is not defined": "common is not defined",
@@ -237,6 +237,8 @@
 	"Converting circular structure to JSON": "Converting circular structure to JSON",
 	"Cannot read property 'hash' of undefined": "Cannot read property 'hash' of undefined",
 	"default passwd declaratioin": "系统分配六位随机密码",
-	"Failed to lookup view \"kb/moniorgs\" in views directory \"C:\\Users\\ZoKing\\Desktop\\xiaogu\\rta-monitor\\views\\\"": "Failed to lookup view \"kb/moniorgs\" in views directory \"C:\\Users\\ZoKing\\Desktop\\xiaogu\\rta-monitor\\views\\\"",
-	"User account updated.": "User account updated."
+	"User account updated.": "User account updated.",
+	"select a org to enter alert solution editing page": "选择进入组织编辑报警解决方案",
+    "select a org to enter monitor panel editing page":"选择进入组织编辑监控图表",
+	"manage org in here":"管理组织：创建、删除或编辑"
 }
