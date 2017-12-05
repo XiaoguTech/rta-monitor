@@ -90,11 +90,9 @@ router.get('/org/new', common.restrict, function (req, res){
         res.render('kb/error', {show_xiaogukb: true,message: 'Access denied', helpers: req.handlebars, config: config});
         return;
     }
-    var defaulPasswd = generator_passwd.generate({length:6});
     res.render('kb/moni/moniorg_new', {
         show_xiaogukb: true,
         title: 'Org - New',
-        defaulPasswd:defaulPasswd,
         session: req.session,
         message: common.clear_session_value(req.session, 'message'),
         message_type: common.clear_session_value(req.session, 'message_type'),
@@ -169,6 +167,7 @@ router.post('/org_insert', common.restrict, function (req, res){
                     req.session.message_type = 'danger';
                     res.redirect(req.app_context + '/org/edit/' + doc._id);
                 }else{
+                    //send http post
                     req.session.message = req.i18n.__('Org account inserted');
                     req.session.message_type = 'success';
                     res.redirect(req.app_context + '/orgs');
