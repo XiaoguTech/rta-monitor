@@ -19,7 +19,7 @@ router.get('/monitors',common.restrict,function(req,res){
     }
     var db = req.app.db;
     common.dbQuery(db.moni_users, {}, null, null, function (err, categorys){
-        res.render('kb/moni/moniorg', {
+        res.render('kb/moni/moniorg_category', {
             show_xiaogukb: true,
             title: 'Categorys',
             categorys: categorys,

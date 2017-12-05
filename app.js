@@ -22,6 +22,7 @@ var compression = require('compression');
 var index = require('./routes/kb/index');
 var api = require('./routes/kb/api');
 var moniMonitors=require('./routes/kb/moni/monitors');
+var moniOrgs = require('./routes/kb/moni/orgs');
 var moniSolutions=require('./routes/kb/moni/solutions');
 // monitor routes
 var moniAlertIndex = require('./routes/moni/alert.js');
@@ -283,12 +284,14 @@ if(app_context !== ''){
     app.use(app_context, index);
     app.use(app_context, api);
     app.use(app_context, moniMonitors);
+    app.use(app_context, moniOrgs);
     app.use(app_context, moniSolutions);
 }else{
     app.use('/', index);
     app.use('/', api);
     app.use('/', moniMonitors);
-    app.use('/', moniSolutions);    
+    app.use('/', moniOrgs);
+    app.use('/', moniSolutions);
 }
 //set up moni routes
 app.use('/', moniIndex);

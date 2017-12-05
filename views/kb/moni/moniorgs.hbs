@@ -1,0 +1,23 @@
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <ol class="breadcrumb">
+                <li class="active"></li>
+            </ol>
+            <h1>{{__ "Orgnization"}} <span class="pull-right"><a href="{{app_context}}/org/new" class="btn btn-primary">{{__ "New Orgnization"}}</a></span></h1>
+            <ul class="list-group">
+                {{#each users}}
+                    <li class="list-group-item">
+                        <strong>{{__ "Orgnization"}}:</strong> {{this.users_name}} - ({{this.user_password}})
+                        <span class="pull-right">
+                            {{#is_an_admin ../session.is_admin}}
+                                <a href="{{app_context}}/org/edit/{{this._id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <a href="{{app_context}}/org/delete/{{this._id}}" onclick="return confirm('{{__ "Are you sure you want to delete?"}}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            {{/is_an_admin}}
+                        </span>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>
