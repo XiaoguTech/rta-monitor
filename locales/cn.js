@@ -3,8 +3,8 @@
 	"Solutions": "报警",
 	"Monitor": "监控",
 	"Users": "用户",
-	"New": "新建",
-	"Edit": "编辑",
+	"New": "新建用户",
+	"Edit": "编辑用户",
 	"My account": "我的账户",
 	"Article": "文章",
 	"Settings": "设置",
@@ -236,6 +236,7 @@
 	"req.app.db.moni_solutions is not a function": "req.app.db.moni_solutions is not a function",
 	"Converting circular structure to JSON": "Converting circular structure to JSON",
 	"Cannot read property 'hash' of undefined": "Cannot read property 'hash' of undefined",
-	"default passwd declaratioin": "default passwd declaratioin",
-	"Failed to lookup view \"kb/moniorgs\" in views directory \"C:\\Users\\ZoKing\\Desktop\\xiaogu\\rta-monitor\\views\\\"": "Failed to lookup view \"kb/moniorgs\" in views directory \"C:\\Users\\ZoKing\\Desktop\\xiaogu\\rta-monitor\\views\\\""
+	"default passwd declaratioin": "系统分配六位随机密码",
+	"Failed to lookup view \"kb/moniorgs\" in views directory \"C:\\Users\\ZoKing\\Desktop\\xiaogu\\rta-monitor\\views\\\"": "Failed to lookup view \"kb/moniorgs\" in views directory \"C:\\Users\\ZoKing\\Desktop\\xiaogu\\rta-monitor\\views\\\"",
+	"User account updated.": "User account updated."
 }

@@ -43,7 +43,7 @@ router.get('/org/edit/:id', common.restrict, function (req, res){
         if(req.session.is_admin === 'false'){
             req.session.message = req.i18n.__('Access denied');
             req.session.message_type = 'danger';
-            res.redirect(req.app_context + '/orgs/');
+            res.redirect(req.app_context + '/orgs');
             return;
         }
 
@@ -115,7 +115,7 @@ router.post('/org_update', common.restrict, function (req, res){
         if(req.session.is_admin === 'false'){
             req.session.message = req.i18n.__('Access denied');
             req.session.message_type = 'danger';
-            res.redirect(req.app_context + '/orgs/');
+            res.redirect(req.app_context + '/orgs');
             return;
         }
         // create the update doc
@@ -137,7 +137,7 @@ router.post('/org_update', common.restrict, function (req, res){
                     // show the view
                     req.session.message = req.i18n.__('User account updated.');
                     req.session.message_type = 'success';
-                    res.redirect(req.app_context + '/org/edit/' + req.body.user_id);
+                    res.redirect(req.app_context + '/orgs');
                 }
             });
     });
@@ -146,9 +146,10 @@ router.post('/org_update', common.restrict, function (req, res){
 router.post('/org_insert', common.restrict, function (req, res){
     var db = req.app.db;
     // sets up the opemkb document
+    var defaulPasswd = generator_passwd.generate({length:6});
     var doc = {
         users_name: req.body.users_name,
-        user_password: req.body.user_password
+        user_password: defaulPasswd
     };
     // check for existing user
     db.moni_users.findOne({'user_name': req.body.users_name}, function (err, user){
